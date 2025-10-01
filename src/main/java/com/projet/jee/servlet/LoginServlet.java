@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import com.projet.jee.dao.UserRepository;
@@ -28,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 
             Utilisateur user = repo.findByEmail(email);
 
-            if (user != null && password.equals(user.getMotDePasse())) {
+            if (user != null && BCrypt.checkpw(password, user.getMotDePasse())) {
                 // prévention fixation de session
                 HttpSession old = request.getSession(true);
                 if (old != null) old.invalidate();
