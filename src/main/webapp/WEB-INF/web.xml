@@ -6,5 +6,8 @@
          version="5.0">
 
     <display-name>ProjetJEE</display-name>
-
+     <context-param>
+    <param-name>upload.dir</param-name>
+    <param-value>/uploads</param-value>
+   </context-param>
 </web-app>

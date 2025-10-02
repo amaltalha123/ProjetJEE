@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 
             Utilisateur user = repo.findByEmail(email);
 
-            if (user != null && BCrypt.checkpw(password, user.getMotDePasse())) {
+            if (user != null && BCrypt.checkpw(password, user.getMotDePasse())){
                 // prévention fixation de session
                 HttpSession old = request.getSession(true);
                 if (old != null) old.invalidate();
@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
                 session.setMaxInactiveInterval(30 * 60); // 30 minutes
 
                 // Stocker un DTO léger
-                SessionUser su = new SessionUser(user.getId(), user.getEmail(), user.getRole());
+                SessionUser su = new SessionUser(user.getId(), user.getEmail(), user.getRole(),user.getPhotoProfile());
                 session.setAttribute("sessionUser", su);
 
                 // Optionnel: sécuriser cookie JSESSIONID (si HTTPS)
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                 }
             } else {
                 request.setAttribute("error", "Email ou mot de passe incorrect");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/JSP/login.jsp").forward(request, response);
             }
         }
     

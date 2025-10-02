@@ -30,7 +30,13 @@ public class Utilisateur {
 
     @OneToMany(mappedBy = "utilisateur")
     private java.util.List<Evaluation> evaluations;
+    
+    @Column(name = "photo_profile", length = 255)
+    private String photoProfile;
 
+    // getters / setters...
+    public String getPhotoProfile() { return photoProfile; }
+    public void setPhotoProfile(String photoProfile) { this.photoProfile = photoProfile; }
 	
 	public int getId() {
 		return id;

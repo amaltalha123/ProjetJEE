@@ -7,9 +7,12 @@
 <title>Ajouter Utilisateur</title>
 </head>
 <body>
-    <form action="UserServlet" method="post">
+    <form action="UserServlet" method="post" enctype="multipart/form-data">
         <label>Email: 
             <input type="email" name="email" required />
+        </label><br>
+        <label>Nom: 
+            <input type="text" name="nom" required />
         </label><br>
 
         <label>Password: 
@@ -32,6 +35,9 @@
                 <option value="annuel">annuel</option>
                 
             </select>
+        </label><br><br>
+        <label>Photo de profil:
+        <input type="file" name="photo" accept="image/*" />
         </label><br><br>
 
         <button type="submit">Ajouter</button>
