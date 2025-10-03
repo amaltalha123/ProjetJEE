@@ -51,9 +51,9 @@ public class LoginServlet extends HttpServlet {
 
                 // redirection selon rôle
                 if (su.getRole() == com.projet.jee.model.Role.MANAGER) {
-                    response.sendRedirect(request.getContextPath() + "/JSP/manager/dashboard.jsp");
+                    response.sendRedirect(request.getContextPath() + "/JSP/secured/manager/dashboard.jsp");
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/JSP/user/dashboard.jsp");
+                    response.sendRedirect(request.getContextPath() + "/JSP/secured/user/dashboard.jsp");
                 }
             } else {
                 request.setAttribute("error", "Email ou mot de passe incorrect");

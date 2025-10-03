@@ -20,9 +20,7 @@
     </c:if>
   </c:when>
 
-  <c:otherwise>
-    <c:redirect url="${pageContext.request.contextPath}/JSP/login.jsp"/>
-  </c:otherwise>
+  
 </c:choose>
 
 </body>

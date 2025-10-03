@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
 
         if (su == null) {
             // non authentifié : rediriger vers login
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            response.sendRedirect("/login");
             return;
         }
 
