@@ -14,10 +14,8 @@
     <a href="${pageContext.request.contextPath}/logout">Se déconnecter</a>
     
     <br>
-    <c:if test="${not empty sessionScope.sessionUser.photoProfile}">
-        <img src="${pageContext.request.contextPath}${sessionScope.sessionUser.photoProfile}" 
-             alt="Photo de profil" width="100" height="100"/>
-    </c:if>
+   <img src="${pageContext.request.contextPath}/photo?id=${sessionScope.sessionUser.id}" alt="Photo de profil">
+    
   </c:when>
 
   

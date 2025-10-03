@@ -1,96 +1,126 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Authentification</title>
-  <link rel="stylesheet" href="CSS/style.css">
+  <title>Services Interventions</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/index.css">
 </head>
 <body>
-  <div class="login-wrap">
-    <div class="login-html">
-    
-      <!-- Onglets -->
-      <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-      <label for="tab-1" class="tab">Sign In</label>
-      <input id="tab-2" type="radio" name="tab" class="sign-up">
-      <label for="tab-2" class="tab">Sign Up</label>
 
-      <!-- Formulaires -->
-      <div class="login-form">
-      
-        <!-- Connexion -->
-        <div class="sign-in-htm">
-          <form action="${pageContext.request.contextPath}/login" method="post">
-            <div class="group">
-              <label class="label">Email</label>
-              <input name="email" type="email" class="input" required>
-            </div>
-            <div class="group">
-              <label class="label">Password</label>
-              <input name="password" type="password" class="input" required>
-            </div>
-            <div class="group">
-              <button type="submit" class="button">Se connecter</button>
-            </div>
-            <c:if test="${not empty error}">
-              <p style="color:red">${error}</p>
-            </c:if>
-          </form>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#hero">Services Interventions</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#hero">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Carousel -->
+<section id="hero">
+  <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="CSS/electricity.jpeg" class="d-block w-100" alt="Plomberie">
+        <div class="carousel-caption d-flex flex-column justify-content-center h-100 text-white">
+          <h1 class="display-4 fw-bold">Services de Plomberie</h1>
+          <p class="lead">Interventions rapides et efficaces pour tous vos problèmes de plomberie.</p>
+          <a href="/ProjetJEE/login" class="btn btn-light btn-lg mt-3">
+  Réserver un service
+</a>
         </div>
-        
-        <!-- Inscription -->
-        <div class="sign-up-htm">
-          <form action="UserServlet" method="post" enctype="multipart/form-data">
-            <div class="group">
-              <label class="label">Nom</label>
-              <input name="nom" type="text" class="input" required>
-            </div>
-            <div class="group">
-              <label class="label">Email</label>
-              <input name="email" type="email" class="input" required>
-            </div>
-            <div class="group">
-              <label class="label">Password</label>
-              <input name="password" type="password" class="input" required>
-            </div>
-            <div class="group">
-              <label class="label">RÃ´le</label>
-              <select name="role" id="roleSelect" class="input" required>
-                <option value="">-- SÃ©lectionner RÃ´le --</option>
-                <option value="MANAGER">Manager</option>
-                <option value="CLIENT">Client</option>
-              </select>
-            </div>
-            <div class="group" id="telephoneField" style="display:none;">
-              <label class="label">TÃ©lÃ©phone</label>
-              <input name="telephone" type="text" class="input">
-            </div>
-            <div class="group" id="abonnementField" style="display:none;">
-              <label class="label">Abonnement</label>
-              <select name="abonnement" class="input">
-                <option value="">-- SÃ©lectionner --</option>
-                <option value="mensuel">Mensuel</option>
-                <option value="annuel">Annuel</option>
-              </select>
-            </div>
-            <div class="group">
-              <label class="label">Photo</label>
-              <input type="file" name="photo" accept="image/*">
-            </div>
-            <div class="group">
-              <button type="submit" class="button">Sâ€™inscrire</button>
-            </div>
-            <c:if test="${not empty message}">
-              <p>${message}</p>
-            </c:if>
-          </form>
+      </div>
+      <!--<div class="carousel-item">
+        <img src="CSS/electricity.jpeg" class="d-block w-100" alt="Électricité">
+        <div class="carousel-caption d-flex flex-column justify-content-center h-100 text-white">
+          <h1 class="display-4 fw-bold">Services d'Électricité</h1>
+          <p class="lead">Électriciens qualifiés pour tous types d'interventions électriques.</p>
+          <a href="#services" class="btn btn-light btn-lg mt-3">Découvrir</a>
         </div>
-        
+      </div> === -->
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</section>
+
+<!-- À propos -->
+<section id="about" class="py-5 text-center">
+  <div class="container">
+    <h2 class="fw-bold">À propos</h2>
+    <p class="text-muted">
+      Notre plateforme permet de réserver rapidement des interventions à domicile, telles que plomberie, électricité, nettoyage et plus. Elle propose différents types d'abonnements : l'abonnement mensuel offre un accès à tous les services pendant un mois avec interventions illimitées et support client prioritaire, tandis que l'abonnement annuel permet un accès à tous les services pendant douze mois avec interventions illimitées, support client prioritaire et une remise de 10 % par rapport au tarif mensuel.
+    </p>
+  </div>
+</section>
+
+
+
+
+<!-- Services -->
+<section id="services" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">Nos Services</h2>
+    <div class="row text-center g-4">
+      <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+          <h5>Plomberie</h5>
+          <p>Réparations et installations de plomberie rapides et fiables.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+          <h5>Électricité</h5>
+          <p>Interventions électriques sécurisées par des professionnels qualifiés.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+          <h5>Nettoyage</h5>
+          <p>Services de nettoyage à domicile ou en entreprise.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+          <h5>Autres Services</h5>
+          <p>Peinture, bricolage et maintenance générale.</p>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <script src="JS/userForm.js"></script>
-</body>
-</html>
+<!-- Contact -->
+<section id="contact" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">Contact</h2>
+    <form class="w-75 mx-auto">
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Nom"/>
+      </div>
+      <div class="mb-3">
+        <input type="email" class="form-control" placeholder="Email"/>
+      </div>
+      <div class="mb-3">
+        <textarea class="form-control" rows="4" placeholder="Votre message"></textarea>
+      </div>
+      <button type="submit" class="btn btn-dark w-100">Envoyer</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer --

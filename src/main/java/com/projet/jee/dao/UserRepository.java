@@ -39,4 +39,10 @@ public class UserRepository {
             em.close();
         }
     }
+    public Utilisateur findById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        Utilisateur user = em.find(Utilisateur.class, id);
+        em.close();
+        return user;
+    }
 }

@@ -45,37 +45,18 @@ public class UserServlet extends HttpServlet {
     String roleParam = request.getParameter("role");
     Role role = Role.valueOf(roleParam.toUpperCase());
     String hashedPassword = BCrypt.hashpw(motDePasse, BCrypt.gensalt());
-    // 🔹 Dossier uploads dans webapp 
-    String uploadDir = getServletContext().getRealPath("/uploads");
-    Path uploadPath = Paths.get(uploadDir);
-    if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
-
+    
     Part filePart = request.getPart("photo");
-    String photoPath = null; // chemin relatif à stocker dans la base
+    byte[] photoBytes = null;
 
     if (filePart != null && filePart.getSize() > 0) {
-        String contentType = filePart.getContentType();
-        if (contentType == null || !contentType.startsWith("image/")) {
-            request.setAttribute("error", "Le fichier doit être une image.");
-            request.getRequestDispatcher("/JSP/createManager.jsp").forward(request, response);
-            return;
+        try (InputStream inputStream = filePart.getInputStream()) {
+            photoBytes = inputStream.readAllBytes();
         }
-
-        String submitted = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String ext = "";
-        int i = submitted.lastIndexOf('.');
-        if (i > 0) ext = submitted.substring(i);
-
-        String uniqueName = UUID.randomUUID().toString() + ext;
-        Path filePath = uploadPath.resolve(uniqueName);
-        try (InputStream in = filePart.getInputStream()) {
-            Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
-        }
-
-        // 🔹 Chemin relatif à stocker
-        photoPath = "/uploads/" + uniqueName;
     }
 
+   
+    
     Utilisateur utilisateur;
 
     if (role == Role.valueOf("MANAGER")) {
@@ -90,8 +71,8 @@ public class UserServlet extends HttpServlet {
         manager.setRole(role);
         manager.setTelephone(telephone);
         manager.setAbonnement(abonnement);
-        if (photoPath != null) manager.setPhotoProfile(photoPath);
-        utilisateur = manager;
+        manager.setPhotoProfile(photoBytes);
+        utilisateur = manager; 
 
     } else {
         utilisateur = new Utilisateur();
@@ -99,7 +80,7 @@ public class UserServlet extends HttpServlet {
         utilisateur.setNom(nom);
         utilisateur.setMotDePasse(hashedPassword);
         utilisateur.setRole(role);
-        if (photoPath != null) utilisateur.setPhotoProfile(photoPath);
+        utilisateur.setPhotoProfile(photoBytes);
 
     }
 

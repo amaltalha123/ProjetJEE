@@ -1,4 +1,4 @@
-/* === RESET + BASE === */
+
 body {
 	margin: 0;
 	color: #6a6f8c;
@@ -18,11 +18,11 @@ a {
 /* === LOGIN CONTAINER === */
 .login-wrap {
 	width: 100%;
-	margin: auto;
+	margin: 10px auto 0 auto;
 	max-width: 525px;
-	min-height: 670px;
+	min-height: 800px;
 	position: relative;
-	background: url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;
+	
 	box-shadow: 0 12px 15px 0 rgba(0,0,0,.24), 
 	            0 17px 50px 0 rgba(0,0,0,.19);
 	border-radius: 10px;
@@ -77,9 +77,21 @@ a {
 	perspective: 1000px;
 	transform-style: preserve-3d;
 }
+
 .login-form .group {
-	margin-bottom: 15px;
+    display: block;     
+    width: 100%;
+    margin-bottom: 15px;
 }
+
+
+.login-form .group .input,
+.login-form .group select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .login-form .group .label,
 .login-form .group .input,
 .login-form .group .button {
@@ -96,9 +108,36 @@ a {
 	background: rgba(255,255,255,.1);
 	font-size: 14px;
 }
+
 .login-form .group select {
-	color: #fff;
+    background: rgba(255, 255, 255, 0.1); 
+    color: #fff;                         
+    padding: 15px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 14px;
+    width: 100%;
+    -webkit-appearance: none;             
+    -moz-appearance: none;               
+    appearance: none;
+    cursor: pointer;
 }
+
+/* Option text color (pour Firefox) */
+.login-form .group select option {
+    background: rgba(40,57,101,0.9); 
+    color: #fff;                     
+}
+
+
+.login-form .group select {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+    padding-right: 40px;
+}
+
 .login-form .group .label {
 	color: #aaa;
 	font-size: 12px;
@@ -179,3 +218,30 @@ a {
 .foot-lnk {
 	text-align: center;
 }
+/* === FILE INPUT (Photo) === */
+.login-form .group input[type="file"] {
+  background: rgba(255,255,255,.1);  
+  padding: 10px;
+  border-radius: 25px;
+  color: #fff;                      
+  font-size: 14px;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Style du bouton "Choisir un fichier" (Chrome/Edge/Safari) */
+.login-form .group input[type="file"]::-webkit-file-upload-button {
+  background: #1161ee;              
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.login-form .group input[type="file"]::-webkit-file-upload-button:hover {
+  background: #0d47a1;              
+}
+
+
