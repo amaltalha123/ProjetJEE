@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
                 session.setMaxInactiveInterval(30 * 60); // 30 minutes
 
                 // Stocker un DTO léger
-                SessionUser su = new SessionUser(user.getId(), user.getEmail(), user.getRole(),user.getPhotoProfile());
+                SessionUser su = new SessionUser(user.getId(), user.getEmail(), user.getRole());
                 session.setAttribute("sessionUser", su);
 
                 // Optionnel: sécuriser cookie JSESSIONID (si HTTPS)
