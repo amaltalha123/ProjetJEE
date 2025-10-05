@@ -52,6 +52,9 @@ public class LoginServlet extends HttpServlet {
                 // redirection selon rôle
                 if (su.getRole() == com.projet.jee.model.Role.MANAGER) {
                     response.sendRedirect(request.getContextPath() + "/JSP/secured/manager/dashboard.jsp");
+                } else if (su.getRole() == com.projet.jee.model.Role.ADMIN) {
+                	response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+
                 } else {
                     response.sendRedirect(request.getContextPath() + "/JSP/secured/user/dashboard.jsp");
                 }

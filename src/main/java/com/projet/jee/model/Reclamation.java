@@ -3,7 +3,7 @@ package com.projet.jee.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Reclamation")
+@Table(name = "reclamation")
 public class Reclamation {
 
     @Id

@@ -5,21 +5,22 @@
 
     <persistence-unit name="DemoPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.projet.jee.model</class>
+
+        <class>com.projet.jee.model.Utilisateur</class>
+        <class>com.projet.jee.model.Reclamation</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/projetjee?serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value=""/>
+            <property name="jakarta.persistence.jdbc.password" value="chaymae2002"/>
 
+            <!-- Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
-			<property name="hibernate.format_sql" value="true"/>
-			<property name="hibernate.use_sql_comments" value="true"/>
-
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
         </properties>
     </persistence-unit>
-
 </persistence>
