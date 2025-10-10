@@ -20,12 +20,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
+    /* === Styles pour le sidebar === */
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2c3e50;
+    }
+
+    .admin-sidebar {
+        width: 250px;
+        background: var(--secondary-color);
+        color: white;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .sidebar-header {
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.2);
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-header h3 {
+        color: white;
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .sidebar-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-menu li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-menu li a {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        color: #bdc3c7;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .sidebar-menu li a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+
+    .sidebar-menu li a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        padding-left: 25px;
+    }
+
+    .sidebar-menu li.active a {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .logout-item {
+        margin-top: auto;
+    }
+
+    .logout-link {
+        color: #e74c3c !important;
+    }
+
+    .logout-link:hover {
+        background: rgba(231, 76, 60, 0.1) !important;
+    }
+
+    /* === Styles généraux === */
     body {
         font-family: "Poppins", "Segoe UI", Roboto, sans-serif;
         background: #f5f6fa;
         margin: 0;
         color: #333;
+    }
+
+    .admin-container {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    .admin-main {
+        flex: 1;
+        margin-left: 250px;
+        padding: 20px;
     }
 
     h1, h2 {
@@ -86,6 +182,20 @@
         margin-bottom: 20px;
     }
 
+    /* === Header Admin === */
+    .admin-header {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .admin-header h1 {
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
     /* === Tables === */
     .table {
         width: 100%;
@@ -105,6 +215,10 @@
         background: #f8f9fa;
         font-weight: 600;
         color: #2c3e50;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
     }
 
     /* === Boutons === */
@@ -183,6 +297,30 @@
 
     .user-stat-card p { color: #7f8c8d; font-size: 0.9em; }
 
+    /* === Responsive === */
+    @media (max-width: 768px) {
+        .admin-sidebar {
+            width: 70px;
+        }
+        
+        .sidebar-header h3,
+        .sidebar-menu li a span {
+            display: none;
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 0;
+            font-size: 1.2rem;
+        }
+        
+        .admin-main {
+            margin-left: 70px;
+        }
+        
+        .stats-cards {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
 </head>
@@ -214,7 +352,7 @@
                     <p>Réclamations Totales</p>
                 </div>
                 <div class="stat-card card-active-reclamations">
-                    <i>⚠️</i>
+                    <i>⚠</i>
                     <h3>${activeReclamations}</h3>
                     <p>Réclamations Actives</p>
                 </div>
@@ -282,7 +420,6 @@
                                         <td>
                                            <a href="${pageContext.request.contextPath}/admin/reclamations" 
                                                class="btn btn-primary">Voir</a>
-
                                         </td>
                                     </tr>
                                 </c:forEach>

@@ -13,14 +13,131 @@ if (request.getAttribute("servlet_executed") == null) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réclamations</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* === Styles pour le sidebar === */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: var(--secondary-color);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding-left: 25px;
+        }
+
+        .sidebar-menu li.active a {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .logout-item {
+            margin-top: auto;
+        }
+
+        .logout-link {
+            color: #e74c3c !important;
+        }
+
+        .logout-link:hover {
+            background: rgba(231, 76, 60, 0.1) !important;
+        }
+
+        /* === Styles généraux === */
         body {
             font-family: "Poppins", "Segoe UI", Roboto, sans-serif;
             background: #f0f2f5;
             margin: 0;
             color: #333;
         }
-        h1 { margin: 0; font-size: 1.9em; color: #222; }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-size: 1.9em; 
+            color: #222; 
+        }
+
+        .content-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
 
         /* === STATISTIQUES MODERNES OUVERTES === */
         .stats-container {
@@ -31,7 +148,7 @@ if (request.getAttribute("servlet_executed") == null) {
         }
         .stat-card {
             flex: 1;
-            background: #ffffff; /* fond blanc */
+            background: #ffffff;
             padding: 25px;
             border-radius: 20px;
             text-align: center;
@@ -39,6 +156,7 @@ if (request.getAttribute("servlet_executed") == null) {
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 200px;
         }
         .stat-card:hover {
             transform: translateY(-5px);
@@ -52,15 +170,15 @@ if (request.getAttribute("servlet_executed") == null) {
 
         /* Couleurs modernes et ouvertes */
         .stat-total { 
-            border-left: 6px solid #3498db; /* bleu moyen */
+            border-left: 6px solid #3498db;
             color: #3498db;
         }
         .stat-unread { 
-            border-left: 6px solid #5dade2; /* bleu clair */
+            border-left: 6px solid #5dade2;
             color: #5dade2;
         }
         .stat-read { 
-            border-left: 6px solid #85c1e9; /* bleu très clair */
+            border-left: 6px solid #85c1e9;
             color: #85c1e9;
         }
 
@@ -83,6 +201,10 @@ if (request.getAttribute("servlet_executed") == null) {
         }
 
         /* Liste réclamations */
+        .reclamation-list {
+            margin-bottom: 20px;
+        }
+
         .reclamation-item {
             padding: 18px;
             border-radius: 15px;
@@ -90,6 +212,7 @@ if (request.getAttribute("servlet_executed") == null) {
             margin-bottom: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: 0.3s ease;
+            border: 1px solid #e0e0e0;
         }
         .reclamation-item:hover {
             transform: translateY(-3px);
@@ -106,8 +229,15 @@ if (request.getAttribute("servlet_executed") == null) {
             margin-bottom: 10px;
             font-size: 0.95em;
         }
-        .reclamation-sender { font-weight: 600; color: #222; }
-        .reclamation-content { color: #555; font-size: 0.95em; margin-bottom: 10px; }
+        .reclamation-sender { 
+            font-weight: 600; 
+            color: #222; 
+        }
+        .reclamation-content { 
+            color: #555; 
+            font-size: 0.95em; 
+            margin-bottom: 10px; 
+        }
         .reclamation-content.preview {
             white-space: nowrap;
             overflow: hidden;
@@ -119,7 +249,16 @@ if (request.getAttribute("servlet_executed") == null) {
             text-decoration: none;
             font-weight: 500;
         }
-        .reclamation-item a:hover { text-decoration: underline; }
+        .reclamation-item a:hover { 
+            text-decoration: underline; 
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
 
         /* Pagination */
         .pagination {
@@ -142,7 +281,10 @@ if (request.getAttribute("servlet_executed") == null) {
             border: 1px solid #ddd;
             color: #3498db;
         }
-        .pagination a:hover { background: #3498db; color: white; }
+        .pagination a:hover { 
+            background: #3498db; 
+            color: white; 
+        }
         .pagination .current {
             background: #3498db;
             color: white;
@@ -153,6 +295,40 @@ if (request.getAttribute("servlet_executed") == null) {
             border: 1px solid #ddd;
             color: #aaa;
             cursor: not-allowed;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 70px;
+            }
+            
+            .sidebar-header h3,
+            .sidebar-menu li a span {
+                display: none;
+            }
+            
+            .sidebar-menu li a i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .admin-main {
+                margin-left: 70px;
+                padding: 15px;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+            }
+            
+            .stat-card {
+                min-width: auto;
+            }
+            
+            .reclamation-content.preview {
+                max-width: 300px;
+            }
         }
     </style>
 </head>
