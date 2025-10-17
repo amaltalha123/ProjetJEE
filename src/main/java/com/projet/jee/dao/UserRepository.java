@@ -45,4 +45,12 @@ public class UserRepository {
         em.close();
         return user;
     }
+    
+    
+ // Ajoutez cette méthode à la fin de votre UserRepository existant
+    public void close() {
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
+    }
 }

@@ -6,7 +6,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import com.projet.jee.dto.*;
 
-@WebFilter("/secured/*") // protège tout ce qui est sous /secured
+@WebFilter("/secured/*")
 public class AuthFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
@@ -18,12 +18,12 @@ public class AuthFilter implements Filter {
         SessionUser su = (session != null) ? (SessionUser) session.getAttribute("sessionUser") : null;
 
         if (su == null) {
-            // non authentifié : rediriger vers login
-            response.sendRedirect("/login");
+            // CORRECTION : Utiliser getContextPath() pour une redirection correcte
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        // Exemple : contrôle simple par rôle (optionnel)
+        // Contrôle par rôle
         String uri = request.getRequestURI();
         if (uri.contains("/secured/manager/") && su.getRole() != com.projet.jee.model.Role.MANAGER) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès refusé");
