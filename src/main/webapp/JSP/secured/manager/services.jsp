@@ -511,6 +511,74 @@
         margin-bottom: 15px;
       }
     }
+    .photos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.photo-input-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  transition: all 0.3s;
+}
+
+.photo-input-wrapper:hover {
+  border-color: #007bff;
+}
+
+.photo-placeholder {
+  text-align: center;
+  color: #aaa;
+}
+
+.photo-placeholder i {
+  font-size: 28px;
+  display: block;
+}
+
+.photo-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-photo-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-photo-btn:hover {
+  background: rgba(255, 0, 0, 0.7);
+}
+
+.photo-info {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+    
     
     @media (min-width: 992px) {
       .sidebar-column {
@@ -556,26 +624,26 @@
             <div class="sidebar">
              <nav class="nav flex-column">
                  <a class="nav-link" href="services.html">Profile</a>
- <a class="nav-link" href="services.html">
-    <i class="fas fa-user-circle"></i> Profile
-  </a>
-  <a class="nav-link " href="#">
-    <i class="fas fa-envelope-open-text"></i> Demandes
-  </a>
-  <a class="nav-link" href="#">
-    <i class="fas fa-exclamation-triangle"></i> Réclamations
-  </a>
-  <a class="nav-link active" href="#">
-    <i class="fas fa-concierge-bell"></i> Services
-  </a>
-  <a class="nav-link" href="#">
-    <i class="fas fa-chart-line"></i> Statistiques
-  </a>
-  <div class="logout-container mt-auto">
-    <a href="logout" class="btn btn-logout">
-      <i class="fas fa-sign-out-alt"></i> Déconnexion
-    </a>
-  </div>
+				 <a class="nav-link" href="services.html">
+				    <i class="fas fa-user-circle"></i> Profile
+				  </a>
+				  <a class="nav-link " href="#">
+				    <i class="fas fa-envelope-open-text"></i> Demandes
+				  </a>
+				  <a class="nav-link" href="#">
+				    <i class="fas fa-exclamation-triangle"></i> Réclamations
+				  </a>
+				  <a class="nav-link active" href="#">
+				    <i class="fas fa-concierge-bell"></i> Services
+				  </a>
+				  <a class="nav-link" href="#">
+				    <i class="fas fa-chart-line"></i> Statistiques
+				  </a>
+				  <div class="logout-container mt-auto">
+				    <a href="logout" class="btn btn-logout">
+				      <i class="fas fa-sign-out-alt"></i> Déconnexion
+				    </a>
+				  </div>
               </nav>
             </div>
           </div>
@@ -784,12 +852,7 @@
             </div>
           </div>
           
-          <div class="form-group">
-            <label for="serviceIcon" class="form-label">Icône (classe FontAwesome)</label>
-            <input type="text" id="serviceIcon" class="form-control" placeholder="Ex: fas fa-heart" required>
-            <small class="text-muted">Utilisez les classes FontAwesome (ex: fas fa-heart, fas fa-brain, etc.)</small>
-          </div>
-          
+         
           <div class="form-group">
             <label for="serviceDescription" class="form-label">Description du service</label>
             <textarea id="serviceDescription" class="form-control" placeholder="Décrivez le service en détail..." required></textarea>
@@ -810,12 +873,22 @@
             </button>
           </div>
           
-          <div class="form-group">
-            <div class="form-check">
-              <input type="checkbox" id="featuredService" class="form-check-input">
-              <label for="featuredService" class="form-check-label">Service en vedette (avec badge "Most Popular")</label>
-            </div>
-          </div>
+         <div class="form-group">
+  <label class="form-label">Photos du service (max. 6)</label>
+  <div id="photosContainer" class="photos-container">
+    <div class="photo-input-wrapper">
+      <input type="file" class="photo-input" accept="image/*" required hidden>
+      <div class="photo-placeholder" id="addFirstPhoto">
+        <i class="fas fa-camera"></i>
+        <span>Ajouter une photo</span>
+      </div>
+    </div>
+  </div>
+  <div class="photo-info">
+    <span id="photoCount">0</span>/6 photos ajoutées
+  </div>
+</div>
+         
         </form>
       </div>
       <div class="modal-footer">
@@ -852,7 +925,115 @@
 
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
+  <script>
+  const maxPhotos = 6;
+  const photosContainer = document.getElementById('photosContainer');
+  const photoCountText = document.getElementById('photoCount');
 
+  let photoCount = 0;
+
+  // Écouter le clic sur le bouton "ajouter une photo"
+  photosContainer.addEventListener('click', (e) => {
+    const placeholder = e.target.closest('.photo-placeholder');
+    if (placeholder) {
+      const fileInput = placeholder.parentElement.querySelector('.photo-input');
+      fileInput.click();
+    }
+  });
+
+  // Quand un fichier est sélectionné
+  photosContainer.addEventListener('change', (e) => {
+    const input = e.target;
+    if (input.classList.contains('photo-input') && input.files.length > 0) {
+      if (photoCount >= maxPhotos) {
+        alert(`Vous pouvez ajouter au maximum ${maxPhotos} photos.`);
+        input.value = '';
+        return;
+      }
+
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const imageURL = event.target.result;
+
+        // Créer un bloc miniature
+        const photoWrapper = document.createElement('div');
+        photoWrapper.className = 'photo-input-wrapper';
+
+        const img = document.createElement('img');
+        img.src = imageURL;
+        img.className = 'photo-thumbnail';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-photo-btn';
+        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        removeBtn.addEventListener('click', () => {
+          photoWrapper.remove();
+          photoCount--;
+          updatePhotoCount();
+          checkAddButton();
+        });
+
+        // Créer un nouvel input caché pour ajouter d'autres photos
+        const newInput = document.createElement('input');
+        newInput.type = 'file';
+        newInput.className = 'photo-input';
+        newInput.accept = 'image/*';
+        newInput.hidden = true;
+
+        photoWrapper.appendChild(img);
+        photoWrapper.appendChild(removeBtn);
+        photoWrapper.appendChild(newInput);
+
+        // Ajouter au container avant le placeholder
+        const placeholderBlock = photosContainer.querySelector('.photo-input-wrapper:last-child');
+        photosContainer.insertBefore(photoWrapper, placeholderBlock);
+
+        photoCount++;
+        updatePhotoCount();
+        checkAddButton();
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Mettre à jour le compteur
+  function updatePhotoCount() {
+    photoCountText.textContent = photoCount;
+  }
+
+  // Masquer ou afficher le bouton d’ajout
+  function checkAddButton() {
+    const placeholder = photosContainer.querySelector('.photo-placeholder');
+    if (photoCount >= maxPhotos) {
+      placeholder.style.display = 'none';
+    } else {
+      placeholder.style.display = 'flex';
+    }
+  }
+
+	document.addEventListener("DOMContentLoaded", function () {
+	    const categorySelect = document.getElementById("serviceCategory");
+	
+	    // Vider le select (sauf l'option par défaut)
+	    categorySelect.innerHTML = '<option value="">Sélectionner une catégorie</option>';
+	
+	    // Appel AJAX vers ta servlet
+	    fetch('<%= request.getContextPath() %>/api/categories')
+	        .then(response => response.json())
+	        .then(data => {
+	            data.forEach(categorie => {
+	                const option = document.createElement("option");
+	                option.value = categorie.id;  // ou autre champ si nécessaire
+	                option.textContent = categorie.nom;
+	                categorySelect.appendChild(option);
+	            });
+	        })
+	        .catch(error => console.error("Erreur lors du chargement des catégories :", error));
+	});
+	</script>
+  
   <script>
     // Gestion du modal
     document.addEventListener('DOMContentLoaded', function() {
@@ -914,12 +1095,10 @@
       submitBtn.addEventListener('click', function() {
         const serviceName = document.getElementById('serviceName').value;
         const serviceCategory = document.getElementById('serviceCategory').value;
-        const serviceIcon = document.getElementById('serviceIcon').value;
         const serviceDescription = document.getElementById('serviceDescription').value;
-        const featuredService = document.getElementById('featuredService').checked;
         
         // Validation basique
-        if (!serviceName || !serviceCategory || !serviceIcon || !serviceDescription) {
+        if (!serviceName || !serviceCategory  || !serviceDescription) {
           alert('Veuillez remplir tous les champs obligatoires.');
           return;
         }
@@ -933,14 +1112,34 @@
           }
         });
         
+        
+        const photoInputs = document.querySelectorAll('.photo-input');
+        const photos = [];
+        photoInputs.forEach(input => {
+          if (input.files.length > 0) {
+            photos.push(input.files[0]);
+          }
+        });
+
+        if (photos.length === 0) {
+          alert('Veuillez ajouter au moins une photo.');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('name', serviceName);
+        formData.append('category', serviceCategory);
+        formData.append('description', serviceDescription);
+        features.forEach((feature, index) => formData.append(`features[${index}]`, feature));
+        photos.forEach((photo, index) => formData.append(`photos[${index}]`, photo));
+
         // Ici, vous pouvez envoyer les données au serveur
         console.log('Nouveau service:', {
           name: serviceName,
           category: serviceCategory,
-          icon: serviceIcon,
           description: serviceDescription,
           features: features,
-          featured: featuredService
+       
         });
         
         // Afficher un message de confirmation
