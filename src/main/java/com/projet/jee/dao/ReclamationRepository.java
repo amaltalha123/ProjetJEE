@@ -144,4 +144,9 @@ public class ReclamationRepository {
             emf.close();
         }
     }
+
+	public List<Reclamation> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

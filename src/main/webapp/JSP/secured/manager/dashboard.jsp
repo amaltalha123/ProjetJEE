@@ -160,7 +160,7 @@
                 <p>Gérer vos réclamations et suivre leur statut</p>
             </a>
 
-            <a href="#" class="menu-card">
+            <a href="${pageContext.request.contextPath}/JSP/secured/manager/services.jsp" class="menu-card">
                 <h3>📊 Services</h3>
                 <p>Gérer vos services proposés</p>
             </a>
