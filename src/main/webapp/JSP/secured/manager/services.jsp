@@ -821,7 +821,7 @@
         <button class="close-btn" id="closeModalBtn">&times;</button>
       </div>
       <div class="modal-body">
-        <form id="serviceForm">
+        <form id="serviceForm"   enctype="multipart/form-data">
           <div class="form-row">
             <div class="form-col">
               <div class="form-group">
@@ -857,38 +857,35 @@
             <label for="serviceDescription" class="form-label">Description du service</label>
             <textarea id="serviceDescription" class="form-control" placeholder="Décrivez le service en détail..." required></textarea>
           </div>
+          <div class="form-group"> 
+          <label class="form-label">Fonctionnalités du service</label> 
+          <div id="featuresContainer"> <div class="feature-input-group"> 
+          <input type="text" class="form-control feature-input" name="features[]" placeholder="Ex: Consultation spécialisée"> 
+          <button type="button" class="remove-feature-btn" style="display: none;"> 
+          <i class="fas fa-times"></i> 
+          </button> 
+          </div> 
+          </div> 
+          <button type="button" class="add-feature-btn" id="addFeatureBtn"> 
+          <i class="fas fa-plus"></i> Ajouter une fonctionnalité </button> 
+          </div> 
           
-          <div class="form-group">
-            <label class="form-label">Fonctionnalités du service</label>
-            <div id="featuresContainer">
-              <div class="feature-input-group">
-                <input type="text" class="form-control feature-input" placeholder="Ex: Consultation spécialisée">
-                <button type="button" class="remove-feature-btn" style="display: none;">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <button type="button" class="add-feature-btn" id="addFeatureBtn">
-              <i class="fas fa-plus"></i> Ajouter une fonctionnalité
-            </button>
+          <div class="form-group"> 
+	          <label class="form-label">Photos du service (max. 6)</label> 
+	          <div id="photosContainer" class="photos-container"> 
+		          <div class="photo-input-wrapper"> 
+		             <input type="file" class="photo-input" name="photos" accept="image/*" required hidden multiple> 
+			          <div class="photo-placeholder" id="addFirstPhoto"> 
+			          <i class="fas fa-camera"></i> 
+			          <span>Ajouter une photo</span> 
+			          </div>
+			         </div> 
+			       </div> 
+		          <div class="photo-info"> 
+		            <span id="photoCount">0</span>/6 photos ajoutées 
+	             </div> 
           </div>
-          
-         <div class="form-group">
-  <label class="form-label">Photos du service (max. 6)</label>
-  <div id="photosContainer" class="photos-container">
-    <div class="photo-input-wrapper">
-      <input type="file" class="photo-input" accept="image/*" required hidden>
-      <div class="photo-placeholder" id="addFirstPhoto">
-        <i class="fas fa-camera"></i>
-        <span>Ajouter une photo</span>
-      </div>
-    </div>
-  </div>
-  <div class="photo-info">
-    <span id="photoCount">0</span>/6 photos ajoutées
-  </div>
-</div>
-         
+		         
         </form>
       </div>
       <div class="modal-footer">
@@ -926,11 +923,13 @@
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
   <script>
+  
   const maxPhotos = 6;
   const photosContainer = document.getElementById('photosContainer');
   const photoCountText = document.getElementById('photoCount');
 
   let photoCount = 0;
+  let selectedFiles = []; // Tableau pour stocker tous les fichiers sélectionnés
 
   // Écouter le clic sur le bouton "ajouter une photo"
   photosContainer.addEventListener('click', (e) => {
@@ -945,56 +944,65 @@
   photosContainer.addEventListener('change', (e) => {
     const input = e.target;
     if (input.classList.contains('photo-input') && input.files.length > 0) {
-      if (photoCount >= maxPhotos) {
-        alert(`Vous pouvez ajouter au maximum ${maxPhotos} photos.`);
-        input.value = '';
-        return;
-      }
+      const files = Array.from(input.files);
+      files.forEach(file => {
+        if (photoCount >= maxPhotos) {
+          alert(`Vous pouvez ajouter au maximum ${maxPhotos} photos.`);
+          return;
+        }
 
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        const imageURL = event.target.result;
+        // Ajouter au tableau
+        selectedFiles.push(file);
 
-        // Créer un bloc miniature
-        const photoWrapper = document.createElement('div');
-        photoWrapper.className = 'photo-input-wrapper';
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const imageURL = event.target.result;
 
-        const img = document.createElement('img');
-        img.src = imageURL;
-        img.className = 'photo-thumbnail';
+          // Créer un bloc miniature
+          const photoWrapper = document.createElement('div');
+          photoWrapper.className = 'photo-input-wrapper';
+          photoWrapper.dataset.index = selectedFiles.length - 1; // Stocker l'index pour la suppression
 
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'remove-photo-btn';
-        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        removeBtn.addEventListener('click', () => {
-          photoWrapper.remove();
-          photoCount--;
+          const img = document.createElement('img');
+          img.src = imageURL;
+          img.className = 'photo-thumbnail';
+
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'remove-photo-btn';
+          removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+          removeBtn.addEventListener('click', () => {
+            const index = parseInt(photoWrapper.dataset.index);
+            selectedFiles.splice(index, 1); // Retirer du tableau
+            photoWrapper.remove();
+            photoCount--;
+
+            // Mettre à jour les indices des wrappers restants
+            const wrappers = photosContainer.querySelectorAll('.photo-input-wrapper:not(:last-child)'); // Exclure le placeholder
+            wrappers.forEach((wrapper, i) => {
+              wrapper.dataset.index = i;
+            });
+
+            updatePhotoCount();
+            checkAddButton();
+          });
+
+          photoWrapper.appendChild(img);
+          photoWrapper.appendChild(removeBtn);
+
+          // Ajouter au container avant le placeholder
+          const placeholderBlock = photosContainer.querySelector('.photo-input-wrapper:last-child');
+          photosContainer.insertBefore(photoWrapper, placeholderBlock);
+
+          photoCount++;
           updatePhotoCount();
           checkAddButton();
-        });
+        };
+        reader.readAsDataURL(file);
+      });
 
-        // Créer un nouvel input caché pour ajouter d'autres photos
-        const newInput = document.createElement('input');
-        newInput.type = 'file';
-        newInput.className = 'photo-input';
-        newInput.accept = 'image/*';
-        newInput.hidden = true;
-
-        photoWrapper.appendChild(img);
-        photoWrapper.appendChild(removeBtn);
-        photoWrapper.appendChild(newInput);
-
-        // Ajouter au container avant le placeholder
-        const placeholderBlock = photosContainer.querySelector('.photo-input-wrapper:last-child');
-        photosContainer.insertBefore(photoWrapper, placeholderBlock);
-
-        photoCount++;
-        updatePhotoCount();
-        checkAddButton();
-      };
-      reader.readAsDataURL(file);
+      // Vider l'input pour permettre de nouveaux ajouts
+      input.value = '';
     }
   });
 
@@ -1003,7 +1011,7 @@
     photoCountText.textContent = photoCount;
   }
 
-  // Masquer ou afficher le bouton d’ajout
+  // Masquer ou afficher le bouton d'ajout
   function checkAddButton() {
     const placeholder = photosContainer.querySelector('.photo-placeholder');
     if (photoCount >= maxPhotos) {
@@ -1067,14 +1075,19 @@
         }
       });
       
+      let featureIndex = 1;
       // Ajouter une fonctionnalité
       addFeatureBtn.addEventListener('click', function() {
         const featureGroup = document.createElement('div');
         featureGroup.className = 'feature-input-group';
         
+        
+        
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'form-control feature-input';
+        input.name = 'features[]';
+        featureIndex++;
         input.placeholder = 'Ex: Consultation spécialisée';
         
         const removeBtn = document.createElement('button');
@@ -1091,66 +1104,67 @@
         featuresContainer.appendChild(featureGroup);
       });
       
-      // Soumettre le formulaire
-      submitBtn.addEventListener('click', function() {
-        const serviceName = document.getElementById('serviceName').value;
-        const serviceCategory = document.getElementById('serviceCategory').value;
-        const serviceDescription = document.getElementById('serviceDescription').value;
-        
-        // Validation basique
-        if (!serviceName || !serviceCategory  || !serviceDescription) {
-          alert('Veuillez remplir tous les champs obligatoires.');
-          return;
-        }
-        
-        // Récupérer les fonctionnalités
-        const featureInputs = document.querySelectorAll('.feature-input');
-        const features = [];
-        featureInputs.forEach(input => {
-          if (input.value.trim()) {
-            features.push(input.value.trim());
+  
+        submitBtn.addEventListener('click', function() {
+          const serviceName = document.getElementById('serviceName').value;
+          const serviceCategory = document.getElementById('serviceCategory').value;
+          const serviceDescription = document.getElementById('serviceDescription').value;
+
+          // Validation basique
+          if (!serviceName || !serviceCategory || !serviceDescription) {
+            alert('Veuillez remplir tous les champs obligatoires.');
+            return;
           }
-        });
-        
-        
-        const photoInputs = document.querySelectorAll('.photo-input');
-        const photos = [];
-        photoInputs.forEach(input => {
-          if (input.files.length > 0) {
-            photos.push(input.files[0]);
+
+          // Récupérer les fonctionnalités
+          const featureInputs = document.querySelectorAll('.feature-input');
+          const features = [];
+          featureInputs.forEach(input => {
+            if (input.value.trim()) {
+              features.push(input.value.trim());
+            }
+          });
+
+          if (selectedFiles.length === 0) {
+            alert('Veuillez ajouter au moins une photo.');
+            return;
           }
+
+          // Créer FormData et ajouter les fichiers
+          const formData = new FormData();
+          formData.append('name', serviceName);
+          formData.append('category', serviceCategory);
+          formData.append('description', serviceDescription);
+          features.forEach((feature) => formData.append('features', feature));
+          selectedFiles.forEach((file) => formData.append('photos', file)); // Ajouter tous les fichiers
+
+          fetch('http://localhost:8084/ProjetJEE/MyServiceServlet', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => {
+            if (response.ok) {
+              alert('Service ajouté avec succès !');
+              document.getElementById('serviceForm').reset();
+              selectedFiles = []; // Réinitialiser le tableau
+              photoCount = 0;
+              updatePhotoCount();
+              checkAddButton();
+              // Supprimer toutes les miniatures sauf le placeholder
+              const wrappers = photosContainer.querySelectorAll('.photo-input-wrapper:not(:last-child)');
+              wrappers.forEach(wrapper => wrapper.remove());
+              modal.classList.remove('active');
+            } else {
+              alert('Erreur lors de l’enregistrement.');
+            }
+          })
+          .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de l’envoi au serveur.');
+          });
         });
-
-        if (photos.length === 0) {
-          alert('Veuillez ajouter au moins une photo.');
-          return;
-        }
-
-        const formData = new FormData();
-        formData.append('name', serviceName);
-        formData.append('category', serviceCategory);
-        formData.append('description', serviceDescription);
-        features.forEach((feature, index) => formData.append(`features[${index}]`, feature));
-        photos.forEach((photo, index) => formData.append(`photos[${index}]`, photo));
-
-        // Ici, vous pouvez envoyer les données au serveur
-        console.log('Nouveau service:', {
-          name: serviceName,
-          category: serviceCategory,
-          description: serviceDescription,
-          features: features,
-       
-        });
-        
-        // Afficher un message de confirmation
-        alert('Service ajouté avec succès!');
-        
-        // Réinitialiser le formulaire
-        document.getElementById('serviceForm').reset();
-        
-        // Fermer le modal
-        closeModal();
-      });
+      
+     
     });
   </script>
 

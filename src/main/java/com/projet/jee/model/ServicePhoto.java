@@ -12,6 +12,7 @@ public class ServicePhoto {
     private int id;
 
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] photo; 
 
     @ManyToOne

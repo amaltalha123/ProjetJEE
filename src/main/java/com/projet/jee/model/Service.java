@@ -1,5 +1,8 @@
 package com.projet.jee.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -28,6 +31,21 @@ public class Service {
 
     @OneToMany(mappedBy = "service")
     private java.util.List<Demande> demandes;
+
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service", orphanRemoval = true)
+    private List<Fonctionnalite> fonctionnalites = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service", orphanRemoval = true)
+    private List<ServicePhoto> photos = new ArrayList<>();
+    
+    // Add getters/setters
+    public List<Fonctionnalite> getFonctionnalites() { return fonctionnalites; }
+    public void setFonctionnalites(List<Fonctionnalite> fonctionnalites) { this.fonctionnalites = fonctionnalites; }
+    
+    public List<ServicePhoto> getPhotos() { return photos; }
+    public void setPhotos(List<ServicePhoto> photos) { this.photos = photos; }
+    
 
 	public int getId() {
 		return id;
