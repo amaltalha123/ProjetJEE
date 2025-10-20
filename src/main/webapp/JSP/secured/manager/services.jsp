@@ -11,24 +11,25 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/img/favicon.png" rel="icon">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-
+  
   <!-- Vendor CSS Files -->
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+ <link href="<%= request.getContextPath() %>/JSP/secured/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="../assets/css/main.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/JSP/secured/assets/css/main.css" rel="stylesheet">
 
   <style>
     /* Reset complet des marges et padding */
@@ -579,7 +580,87 @@
   margin-top: 5px;
 }
     
-    
+  /* Styles pour la barre de recherche */
+.edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 500px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 0 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.search-box:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.search-icon {
+  color: #6c757d;
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  width: 100%;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.clear-search {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.clear-search:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+/* Responsive pour la barre de recherche */
+@media (max-width: 768px) {
+  .edit-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .edit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}  
     @media (min-width: 992px) {
       .sidebar-column {
         flex: 0 0 300px; /* Largeur fixe plus grande pour la sidebar */
@@ -607,7 +688,7 @@
       <nav class="breadcrumbs">
         <div class="container">
           <ol>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/JSP/secured/manager/dashboard.jsp">Home</a></li>
             <li class="current">Services</li>
           </ol>
         </div>
@@ -620,30 +701,29 @@
       <div class="container-fluid services-section-container" data-aos="fade-up" data-aos-delay="100">
         <div class="row no-gutters-row">
           <!-- Sidebar - colonne élargie -->
-          <div class="col-lg-4 col-xl-3 sidebar-column">
+           <div class="col-lg-4 col-xl-3 sidebar-column">
             <div class="sidebar">
-             <nav class="nav flex-column">
-                 <a class="nav-link" href="services.html">Profile</a>
-				 <a class="nav-link" href="services.html">
-				    <i class="fas fa-user-circle"></i> Profile
-				  </a>
-				  <a class="nav-link " href="#">
-				    <i class="fas fa-envelope-open-text"></i> Demandes
-				  </a>
-				  <a class="nav-link" href="#">
-				    <i class="fas fa-exclamation-triangle"></i> Réclamations
-				  </a>
-				  <a class="nav-link active" href="#">
-				    <i class="fas fa-concierge-bell"></i> Services
-				  </a>
-				  <a class="nav-link" href="#">
-				    <i class="fas fa-chart-line"></i> Statistiques
-				  </a>
-				  <div class="logout-container mt-auto">
-				    <a href="logout" class="btn btn-logout">
-				      <i class="fas fa-sign-out-alt"></i> Déconnexion
-				    </a>
-				  </div>
+              <nav class="nav flex-column">
+                <a class="nav-link" href="#">
+                  <i class="fas fa-user-circle"></i> Profile
+                </a>
+                <a class="nav-link" href="#">
+                  <i class="fas fa-envelope-open-text"></i> Demandes
+                </a>
+                <a class="nav-link" href="#">
+                  <i class="fas fa-exclamation-triangle"></i> Réclamations
+                </a>
+                <a class="nav-link" href="#">
+                  <i class="fas fa-concierge-bell"></i> Services
+                </a>
+                <a class="nav-link active" href="#">
+                  <i class="fas fa-chart-line"></i> Statistiques
+                </a>
+                <div class="logout-container mt-auto">
+                  <a href="logout" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                  </a>
+                </div>
               </nav>
             </div>
           </div>
@@ -653,13 +733,24 @@
             <div class="main-content">
               
               <!-- Section Modifier avec bouton -->
-              <div class="edit-section" data-aos="fade-up">
-                <button class="edit-btn" id="openModalBtn">
-                  <i class="fas fa-edit"></i>
-                  Ajouter un Service
-                </button>
-              </div>
-
+             <!-- Section Modifier avec bouton et barre de recherche -->
+			<div class="edit-section" data-aos="fade-up">
+			  <div class="edit-header">
+			    <div class="search-container">
+			      <div class="search-box">
+			        <i class="fas fa-search search-icon"></i>
+			        <input type="text" id="serviceSearch" class="search-input" placeholder="Rechercher un service par titre...">
+			        <button type="button" class="clear-search" id="clearSearchBtn" style="display: none;">
+			          <i class="fas fa-times"></i>
+			        </button>
+			      </div>
+			    </div>
+			    <button class="edit-btn" id="openModalBtn">
+			      <i class="fas fa-edit"></i>
+			      Ajouter un Service
+			    </button>
+			  </div>
+			</div>
               <div class="services-grid">
                 <div class="row g-4">
 
@@ -694,34 +785,7 @@
                 </div>
               </div>
 
-              <div class="services-stats" data-aos="fade-up" data-aos-delay="800">
-                <div class="row">
-                  <div class="col-lg-3 col-md-6">
-                    <div class="stat-item">
-                      <div class="stat-number" data-purecounter-start="0" data-purecounter-end="25000" data-purecounter-duration="2"></div>
-                      <div class="stat-label">Patients Served</div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                    <div class="stat-item">
-                      <div class="stat-number" data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="2"></div>
-                      <div class="stat-label">Medical Experts</div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                    <div class="stat-item">
-                      <div class="stat-number" data-purecounter-start="0" data-purecounter-end="18" data-purecounter-duration="2"></div>
-                      <div class="stat-label">Specializations</div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                    <div class="stat-item">
-                      <div class="stat-number" data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="2"></div>
-                      <div class="stat-label">Hours Service</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
 
               
           </div>
@@ -752,19 +816,7 @@
                 <label for="serviceCategory" class="form-label">Catégorie</label>
                 <select id="serviceCategory" class="form-control" required>
                   <option value="">Sélectionner une catégorie</option>
-                  <option value="primary-care">Primary Care</option>
-                  <option value="specialty">Specialty</option>
-                  <option value="diagnostics">Diagnostics</option>
-                  <option value="emergency">Emergency</option>
-                  <option value="maternal">Maternal Health</option>
-                  <option value="vaccination">Vaccination</option>
-                  <option value="radiology">Radiology</option>
-                  <option value="neurology">Neurology</option>
-                  <option value="orthopedics">Orthopedics</option>
-                  <option value="ophthalmology">Ophthalmology</option>
-                  <option value="dentistry">Dentistry</option>
-                  <option value="allergy">Allergy & Immunology</option>
-                  <option value="genetics">Genetics</option>
+                 
                 </select>
               </div>
             </div>
@@ -813,14 +865,7 @@
     </div>
   </div>
 
-  <footer id="footer" class="footer position-relative">
-    <div class="container copyright text-center">
-      <p>© <span>Copyright</span> <strong>MediNest</strong>&nbsp;<span>All Rights Reserved</span></p>
-      <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-  </footer>
+ 
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -829,17 +874,18 @@
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
-  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/vendor/php-email-form/validate.js"></script>
-  <script src="../assets/vendor/aos/aos.js"></script>
-  <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="../assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/php-email-form/validate.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/aos/aos.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="<%= request.getContextPath() %>/JSP/secured/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
 
   <!-- Main JS File -->
-  <script src="../assets/js/main.js"></script>
+ <script src="<%= request.getContextPath() %>/JSP/secured/assets/js/main.js"></script>
   <script>
 document.addEventListener("DOMContentLoaded", function () {
     // Fonction pour charger et afficher les services
@@ -933,6 +979,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Charger les services au démarrage
     loadServices();
+});
+</script>
+
+<script>
+//Fonction de recherche
+document.addEventListener("DOMContentLoaded", function() {
+  const searchInput = document.getElementById('serviceSearch');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  
+  // Afficher/masquer le bouton de suppression
+  searchInput.addEventListener('input', function() {
+    if (this.value.trim() !== '') {
+      clearSearchBtn.style.display = 'flex';
+    } else {
+      clearSearchBtn.style.display = 'none';
+    }
+    filterServices(this.value.trim());
+  });
+  
+  // Effacer la recherche
+  clearSearchBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    this.style.display = 'none';
+    filterServices('');
+  });
+  
+  // Fonction pour filtrer les services
+  function filterServices(searchTerm) {
+    const serviceCards = document.querySelectorAll('.services-grid .col-lg-4.col-md-6');
+    
+    serviceCards.forEach(card => {
+      const title = card.querySelector('h4').textContent.toLowerCase();
+      
+      if (title.includes(searchTerm.toLowerCase()) || searchTerm === '') {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
 });
 </script>
   <script>
