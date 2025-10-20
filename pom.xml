@@ -59,7 +59,23 @@
 	    <artifactId>gson</artifactId>
 	    <version>2.11.0</version>
 	</dependency>
-
+    <dependency>
+             <groupId>com.fasterxml.jackson.core</groupId>
+             <artifactId>jackson-databind</artifactId>
+             <version>2.15.2</version>  <!-- Version récente ; vérifiez la compatibilité avec votre JDK (ex. 11+) -->
+         </dependency>
+         
+         <!-- Optionnel : Ajoutez ces dépendances si vous voulez plus de fonctionnalités JSON -->
+         <dependency>
+             <groupId>com.fasterxml.jackson.core</groupId>
+             <artifactId>jackson-core</artifactId>
+             <version>2.15.2</version>
+         </dependency>
+         <dependency>
+             <groupId>com.fasterxml.jackson.core</groupId>
+             <artifactId>jackson-annotations</artifactId>
+             <version>2.15.2</version>
+         </dependency>
   </dependencies>
 
   

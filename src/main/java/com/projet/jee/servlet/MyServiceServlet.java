@@ -1,11 +1,16 @@
 package com.projet.jee.servlet;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 import java.io.IOException;
@@ -13,10 +18,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.projet.jee.dao.UserRepository;
+import com.projet.jee.dto.SessionUser;
 import com.projet.jee.model.Categorie;
 import com.projet.jee.model.Fonctionnalite;
 import com.projet.jee.model.Service;
+import com.projet.jee.model.StatutService;
+import com.projet.jee.model.Manager;
 import com.projet.jee.model.ServicePhoto;
+import com.projet.jee.model.Utilisateur;
 import com.projet.jee.service.ServiceService;
 
 @WebServlet("/MyServiceServlet")
@@ -24,22 +34,35 @@ import com.projet.jee.service.ServiceService;
 public class MyServiceServlet extends HttpServlet {
 
     private final ServiceService serviceService = new ServiceService();
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("DemoPU");
+    private UserRepository userRepo = new UserRepository();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+          
         request.setCharacterEncoding("UTF-8");
-
+        EntityManager em = emf.createEntityManager();
         String name = request.getParameter("name");
         String categoryId = request.getParameter("category");
         String description = request.getParameter("description");
+        
+        HttpSession session = request.getSession(false);
+        SessionUser sessionUser = (session != null) ? (SessionUser) session.getAttribute("sessionUser") : null;
+        
+        if (sessionUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        Manager manager = userRepo.find((long) sessionUser.getId());
 
         // 🧱 Construire le service
         Service service = new Service();
         service.setTitre(name);
         service.setDescription(description);
-
+        service.setManager(manager);
+        service.setStatus(StatutService.ACTIF);
         Categorie cat = new Categorie();
         cat.setId(Integer.parseInt(categoryId));
         service.setCategorie(cat);
@@ -89,7 +112,13 @@ public class MyServiceServlet extends HttpServlet {
             }
         }
         // 💾 Enregistrement
-        serviceService.addService(service, features, photos);
-        response.setStatus(HttpServletResponse.SC_OK);
+        try {
+            serviceService.addService(service, features, photos);
+            // Redirection vers la page des services après succès
+            response.sendRedirect(request.getContextPath() + "/JSP/secured/manager/services.jsp");  // Adaptez l'URL selon votre page des services
+        } catch (Exception e) {
+            // En cas d'erreur, rediriger vers une page d'erreur ou afficher un message
+            response.sendRedirect(request.getContextPath() + "/error.html?message=Erreur lors de l'ajout du service");
+        }
     }
 }

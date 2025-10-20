@@ -669,110 +669,28 @@
                         <div class="service-icon">
                           <i class="fas fa-heartbeat"></i>
                         </div>
-                        <span class="service-category">Primary Care</span>
+                        <span class="service-category">Nom de catégorie</span>
                       </div>
                       <div class="service-body">
-                        <h4>General Consultation</h4>
-                        <p>Comprehensive health assessments and preventive care planning for all family members.</p>
+                        <h4>Titre du service</h4>
+                        <p>description du service ...</p>
                         <div class="service-features">
-                          <span class="feature-badge">Health Monitoring</span>
-                          <span class="feature-badge">Wellness Programs</span>
-                          <span class="feature-badge">Preventive Care</span>
+                          <!-- les premiers 3 fonctionnalité du service -->
+                          <span class="feature-badge">Fonctionnalté 1 du service</span>
+                          <span class="feature-badge">Fonctionnalté 2 du service</span>
+                          <span class="feature-badge">Fonctionnalté 3 du service</span>
                         </div>
                       </div>
                       <div class="service-footer">
                         <a href="service-details.html" class="service-btn">
-                          Schedule Visit
+                          Voir details du service
                           <i class="fas fa-arrow-right"></i>
                         </a>
                       </div>
                     </div>
                   </div>
 
-                  <!-- Les autres cartes de services -->
-                  <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-card specialty-care featured">
-                      <div class="service-header">
-                        <div class="service-icon">
-                          <i class="fas fa-heart"></i>
-                        </div>
-                        <span class="service-category">Specialty</span>
-                        <div class="featured-badge">Most Popular</div>
-                      </div>
-                      <div class="service-body">
-                        <h4>Cardiology Services</h4>
-                        <p>Advanced heart care including diagnostics, treatment, and post-operative rehabilitation programs.</p>
-                        <div class="service-features">
-                          <span class="feature-badge">Heart Surgery</span>
-                          <span class="feature-badge">ECG Testing</span>
-                          <span class="feature-badge">Cardiac Rehab</span>
-                        </div>
-                      </div>
-                      <div class="service-footer">
-                        <a href="service-details.html" class="service-btn">
-                          Book Appointment
-                          <i class="fas fa-arrow-right"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Les autres cartes de services -->
-                  <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-card specialty-care featured">
-                      <div class="service-header">
-                        <div class="service-icon">
-                          <i class="fas fa-heart"></i>
-                        </div>
-                        <span class="service-category">Specialty</span>
-                        <div class="featured-badge">Most Popular</div>
-                      </div>
-                      <div class="service-body">
-                        <h4>Cardiology Services</h4>
-                        <p>Advanced heart care including diagnostics, treatment, and post-operative rehabilitation programs.</p>
-                        <div class="service-features">
-                          <span class="feature-badge">Heart Surgery</span>
-                          <span class="feature-badge">ECG Testing</span>
-                          <span class="feature-badge">Cardiac Rehab</span>
-                        </div>
-                      </div>
-                      <div class="service-footer">
-                        <a href="service-details.html" class="service-btn">
-                          Book Appointment
-                          <i class="fas fa-arrow-right"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Les autres cartes de services -->
-                  <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-card specialty-care featured">
-                      <div class="service-header">
-                        <div class="service-icon">
-                          <i class="fas fa-heart"></i>
-                        </div>
-                        <span class="service-category">Specialty</span>
-                        <div class="featured-badge">Most Popular</div>
-                      </div>
-                      <div class="service-body">
-                        <h4>Cardiology Services</h4>
-                        <p>Advanced heart care including diagnostics, treatment, and post-operative rehabilitation programs.</p>
-                        <div class="service-features">
-                          <span class="feature-badge">Heart Surgery</span>
-                          <span class="feature-badge">ECG Testing</span>
-                          <span class="feature-badge">Cardiac Rehab</span>
-                        </div>
-                      </div>
-                      <div class="service-footer">
-                        <a href="service-details.html" class="service-btn">
-                          Book Appointment
-                          <i class="fas fa-arrow-right"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
+               
                 </div>
               </div>
 
@@ -922,6 +840,101 @@
 
   <!-- Main JS File -->
   <script src="../assets/js/main.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Fonction pour charger et afficher les services
+    function loadServices() {
+        fetch('<%= request.getContextPath() %>/GetServicesServlet') 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur réseau : ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const servicesGrid = document.querySelector('.services-grid .row');
+                servicesGrid.innerHTML = '';  // Vider le contenu existant (supprime l'exemple statique)
+
+                if (data.length === 0) {
+                    servicesGrid.innerHTML = '<p>Aucun service disponible.</p>';
+                    return;
+                }
+
+                data.forEach((service, index) => {
+                    // Créer la carte de service
+                    const colDiv = document.createElement('div');
+                    colDiv.className = 'col-lg-4 col-md-6';
+                    colDiv.setAttribute('data-aos', 'zoom-in');
+                    colDiv.setAttribute('data-aos-delay', (200 + index * 100).toString());  // Délai progressif
+
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'service-card primary-care';  // Adaptez la classe selon la catégorie si nécessaire
+
+                    // Header de la carte
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = 'service-header';
+                    const iconDiv = document.createElement('div');
+                    iconDiv.className = 'service-icon';
+                    iconDiv.innerHTML = '<i class="fas fa-heartbeat"></i>';  // Icône par défaut, adaptez si vous avez des icônes dynamiques
+                    const categorySpan = document.createElement('span');
+                    categorySpan.className = 'service-category';
+                    categorySpan.textContent = service.categorie ? service.categorie.nom : 'Aucune catégorie';
+                    headerDiv.appendChild(iconDiv);
+                    headerDiv.appendChild(categorySpan);
+
+                    // Body de la carte
+                    const bodyDiv = document.createElement('div');
+                    bodyDiv.className = 'service-body';
+                    const titleH4 = document.createElement('h4');
+                    titleH4.textContent = service.titre;
+                    const descP = document.createElement('p');
+                    descP.textContent = service.description;
+                    const featuresDiv = document.createElement('div');
+                    featuresDiv.className = 'service-features';
+                    // Ajouter les 3 premières fonctionnalités (ou moins si pas disponibles)
+                    (service.fonctionnalites || []).forEach(feature => {
+                        const badgeSpan = document.createElement('span');
+                        badgeSpan.className = 'feature-badge';
+                        badgeSpan.textContent = feature;
+                        featuresDiv.appendChild(badgeSpan);
+                    });
+                    bodyDiv.appendChild(titleH4);
+                    bodyDiv.appendChild(descP);
+                    bodyDiv.appendChild(featuresDiv);
+
+                    // Footer de la carte
+                    const footerDiv = document.createElement('div');
+                    footerDiv.className = 'service-footer';
+                    const linkA = document.createElement('a');
+                    linkA.className = 'service-btn';
+                    linkA.href = 'service-details.html?id=' + service.id;  // Lien vers les détails, adaptez
+                    linkA.innerHTML = 'Voir details du service <i class="fas fa-arrow-right"></i>';
+                    footerDiv.appendChild(linkA);
+
+                    // Assembler la carte
+                    cardDiv.appendChild(headerDiv);
+                    cardDiv.appendChild(bodyDiv);
+                    cardDiv.appendChild(footerDiv);
+                    colDiv.appendChild(cardDiv);
+                    servicesGrid.appendChild(colDiv);
+                });
+
+                // Réinitialiser AOS après ajout dynamique (si vous utilisez AOS)
+                if (typeof AOS !== 'undefined') {
+                    AOS.refresh();
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des services :', error);
+                const servicesGrid = document.querySelector('.services-grid .row');
+                servicesGrid.innerHTML = '<p>Erreur lors du chargement des services. Veuillez réessayer.</p>';
+            });
+    }
+
+    // Charger les services au démarrage
+    loadServices();
+});
+</script>
   <script>
   
   const maxPhotos = 6;
@@ -1105,64 +1118,60 @@
       });
       
   
-        submitBtn.addEventListener('click', function() {
-          const serviceName = document.getElementById('serviceName').value;
-          const serviceCategory = document.getElementById('serviceCategory').value;
-          const serviceDescription = document.getElementById('serviceDescription').value;
+      submitBtn.addEventListener('click', function() {
+    	    const serviceName = document.getElementById('serviceName').value;
+    	    const serviceCategory = document.getElementById('serviceCategory').value;
+    	    const serviceDescription = document.getElementById('serviceDescription').value;
 
-          // Validation basique
-          if (!serviceName || !serviceCategory || !serviceDescription) {
-            alert('Veuillez remplir tous les champs obligatoires.');
-            return;
-          }
+    	    // Validation basique
+    	    if (!serviceName || !serviceCategory || !serviceDescription) {
+    	        alert('Veuillez remplir tous les champs obligatoires.');
+    	        return;
+    	    }
 
-          // Récupérer les fonctionnalités
-          const featureInputs = document.querySelectorAll('.feature-input');
-          const features = [];
-          featureInputs.forEach(input => {
-            if (input.value.trim()) {
-              features.push(input.value.trim());
-            }
-          });
+    	    // Récupérer les fonctionnalités
+    	    const featureInputs = document.querySelectorAll('.feature-input');
+    	    const features = [];
+    	    featureInputs.forEach(input => {
+    	        if (input.value.trim()) {
+    	            features.push(input.value.trim());
+    	        }
+    	    });
 
-          if (selectedFiles.length === 0) {
-            alert('Veuillez ajouter au moins une photo.');
-            return;
-          }
+    	    if (selectedFiles.length === 0) {
+    	        alert('Veuillez ajouter au moins une photo.');
+    	        return;
+    	    }
 
-          // Créer FormData et ajouter les fichiers
-          const formData = new FormData();
-          formData.append('name', serviceName);
-          formData.append('category', serviceCategory);
-          formData.append('description', serviceDescription);
-          features.forEach((feature) => formData.append('features', feature));
-          selectedFiles.forEach((file) => formData.append('photos', file)); // Ajouter tous les fichiers
+    	    // Créer FormData et ajouter les fichiers
+    	    const formData = new FormData();
+    	    formData.append('name', serviceName);
+    	    formData.append('category', serviceCategory);
+    	    formData.append('description', serviceDescription);
+    	    features.forEach((feature) => formData.append('features', feature));
+    	    selectedFiles.forEach((file) => formData.append('photos', file)); // Ajouter tous les fichiers
 
-          fetch('http://localhost:8084/ProjetJEE/MyServiceServlet', {
-            method: 'POST',
-            body: formData
-          })
-          .then(response => {
-            if (response.ok) {
-              alert('Service ajouté avec succès !');
-              document.getElementById('serviceForm').reset();
-              selectedFiles = []; // Réinitialiser le tableau
-              photoCount = 0;
-              updatePhotoCount();
-              checkAddButton();
-              // Supprimer toutes les miniatures sauf le placeholder
-              const wrappers = photosContainer.querySelectorAll('.photo-input-wrapper:not(:last-child)');
-              wrappers.forEach(wrapper => wrapper.remove());
-              modal.classList.remove('active');
-            } else {
-              alert('Erreur lors de l’enregistrement.');
-            }
-          })
-          .catch(error => {
-            console.error('Erreur:', error);
-            alert('Erreur lors de l’envoi au serveur.');
-          });
-        });
+    	    fetch('http://localhost:8084/ProjetJEE/MyServiceServlet', {
+    	        method: 'POST',
+    	        body: formData
+    	    })
+    	    .then(response => {
+    	        if (response.ok) {
+    	            alert('Service ajouté avec succès !');
+    	            // Fermer le modal
+    	            closeModal();
+    	            // Recharger la page pour rafraîchir la liste des services
+    	            window.location.reload();
+    	        } else {
+    	            alert('Erreur lors de l’enregistrement.');
+    	        }
+    	    })
+    	    .catch(error => {
+    	        console.error('Erreur:', error);
+    	        alert('Erreur lors de l’envoi au serveur.');
+    	    });
+    	});
+
       
      
     });
