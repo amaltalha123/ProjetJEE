@@ -39,6 +39,9 @@ public class Service {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "service", orphanRemoval = true)
     private List<ServicePhoto> photos = new ArrayList<>();
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service", orphanRemoval = true)
+    private List<Commentaire> commentaires = new ArrayList<>();
+    
     // Add getters/setters
     public List<Fonctionnalite> getFonctionnalites() { return fonctionnalites; }
     public void setFonctionnalites(List<Fonctionnalite> fonctionnalites) { this.fonctionnalites = fonctionnalites; }
@@ -47,6 +50,10 @@ public class Service {
     public void setPhotos(List<ServicePhoto> photos) { this.photos = photos; }
     
 
+    // Nouveaux getters/setters pour commentaires
+    public List<Commentaire> getCommentaires() { return commentaires; }
+    public void setCommentaires(List<Commentaire> commentaires) { this.commentaires = commentaires; }
+    
 	public int getId() {
 		return id;
 	}
