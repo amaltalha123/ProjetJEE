@@ -704,7 +704,7 @@
            <div class="col-lg-4 col-xl-3 sidebar-column">
             <div class="sidebar">
               <nav class="nav flex-column">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/ProfileServlet">
                   <i class="fas fa-user-circle"></i> Profile
                 </a>
                 <a class="nav-link" href="#">
@@ -773,7 +773,7 @@
                         </div>
                       </div>
                       <div class="service-footer">
-                        <a href="service-details.html" class="service-btn">
+                        <a href="http://localhost:8082/ProjetJEE/ServiceDetailsServlet?id=${service.id}" class="service-btn">
                           Voir details du service
                           <i class="fas fa-arrow-right"></i>
                         </a>
@@ -953,7 +953,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     footerDiv.className = 'service-footer';
                     const linkA = document.createElement('a');
                     linkA.className = 'service-btn';
-                    linkA.href = 'service-details.html?id=' + service.id;  // Lien vers les détails, adaptez
+                    linkA.href = 'http://localhost:8082/ProjetJEE/ServiceDetailsServlet?id=' + service.id;  // Lien vers les détails, adaptez
                     linkA.innerHTML = 'Voir details du service <i class="fas fa-arrow-right"></i>';
                     footerDiv.appendChild(linkA);
 

@@ -20,5 +20,8 @@ public class SessionUser implements Serializable {
     public int getId() { return id; }
     public String getEmail() { return email; }
     public Role getRole() { return role; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     
 }

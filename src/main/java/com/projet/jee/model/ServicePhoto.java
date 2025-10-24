@@ -1,6 +1,8 @@
 package com.projet.jee.model;
 
 
+import java.util.Base64;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,7 +16,9 @@ public class ServicePhoto {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] photo; 
-
+    public String getBase64() {
+        return Base64.getEncoder().encodeToString(this.photo);
+    }
     @ManyToOne
     @JoinColumn(name = "service_id")
     private Service service;
