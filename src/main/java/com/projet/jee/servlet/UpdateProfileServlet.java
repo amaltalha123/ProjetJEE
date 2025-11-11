@@ -3,6 +3,9 @@ package com.projet.jee.servlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.projet.jee.model.Utilisateur;
 import com.projet.jee.dto.SessionUser;
 import jakarta.persistence.EntityManager;
@@ -100,7 +103,8 @@ public class UpdateProfileServlet extends HttpServlet {
             if (motDePasse != null && !motDePasse.trim().isEmpty()) {
                 // TODO: Hasher le mot de passe avant de le stocker
                 // Exemple avec BCrypt : String hashedPassword = BCrypt.hashpw(motDePasse, BCrypt.gensalt());
-                user.setMotDePasse(motDePasse);
+            	String hashedPassword = BCrypt.hashpw(motDePasse, BCrypt.gensalt());
+                user.setMotDePasse(hashedPassword);
                 System.out.println("🔒 Mot de passe mis à jour");
             }
             

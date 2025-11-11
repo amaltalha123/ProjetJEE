@@ -6,6 +6,7 @@ import com.projet.jee.model.Utilisateur;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class UserRepository {
@@ -46,6 +47,20 @@ public class UserRepository {
         return user;
     }
     
+    public boolean isExiste(Utilisateur utilisateur) {
+        EntityManager em = emf.createEntityManager(); // Assurez-vous d'avoir une méthode pour obtenir l'EntityManager
+        try {
+            Query query = em.createQuery("SELECT COUNT(u) FROM Utilisateur u WHERE u.email = :email");
+            query.setParameter("email", utilisateur.getEmail());
+            Long count = (Long) query.getSingleResult();
+            return count > 0; 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // En cas d'erreur, assumer qu'il n'existe pas (ou gérer différemment)
+        } finally {
+            em.close();
+        }
+    }
     
  // Ajoutez cette méthode à la fin de votre UserRepository existant
     public void close() {
