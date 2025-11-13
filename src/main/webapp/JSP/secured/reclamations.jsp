@@ -342,11 +342,40 @@
             border: 1px solid #b8e2e8;
         }
         
+        .status-replied {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
         .reclamation-content {
             font-size: 1rem;
             line-height: 1.6;
             color: #2c3e50;
             margin-bottom: 15px;
+        }
+        
+        .reclamation-response {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin-top: 15px;
+        }
+        
+        .response-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .response-content {
+            color: #2c3e50;
+            line-height: 1.6;
+            white-space: pre-wrap;
         }
         
         .reclamation-user-info {
@@ -372,6 +401,24 @@
         .empty-state h4 {
             margin: 0 0 10px 0;
             color: #6c757d;
+        }
+        
+        /* Badge pour nouvelle réponse */
+        .new-response-badge {
+            background: #dc3545;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         /* Responsive - MÊME STYLE QUE SERVICES */
@@ -562,13 +609,39 @@
                                 <c:forEach var="reclamation" items="${reclamations}" varStatus="status">
                                     <div class="reclamation-item" data-aos="fade-up" data-aos-delay="${300 + status.index * 100}">
                                         <div class="reclamation-item-header">
-                                            <div class="reclamation-id">Réclamation #${reclamation.id}</div>
-                                            <div class="reclamation-status ${reclamation.etat ? 'status-resolved' : 'status-pending'}">
-                                                <i class="fas ${reclamation.etat ? 'fa-check-circle' : 'fa-clock'}"></i>
-                                                ${reclamation.etat ? 'Résolue' : 'En attente'}
+                                            <div class="reclamation-id">
+                                                Réclamation #${reclamation.id}
+                                                <c:if test="${not empty reclamation.reponseAdmin && !reclamation.etat}">
+                                                    <span class="new-response-badge">Nouvelle réponse</span>
+                                                </c:if>
+                                            </div>
+                                            <div class="reclamation-status 
+                                                ${not empty reclamation.reponseAdmin ? 'status-replied' : 
+                                                  reclamation.etat ? 'status-resolved' : 'status-pending'}">
+                                                <i class="fas 
+                                                    ${not empty reclamation.reponseAdmin ? 'fa-reply' : 
+                                                      reclamation.etat ? 'fa-check-circle' : 'fa-clock'}"></i>
+                                                ${not empty reclamation.reponseAdmin ? 'Répondu' : 
+                                                  reclamation.etat ? 'Résolue' : 'En attente'}
                                             </div>
                                         </div>
-                                        <div class="reclamation-content">${reclamation.contenu}</div>
+                                        <div class="reclamation-content">
+                                            <strong>Votre message :</strong><br>
+                                            ${reclamation.contenu}
+                                        </div>
+                                        
+                                        <!-- Section réponse de l'admin -->
+                                        <c:if test="${not empty reclamation.reponseAdmin}">
+                                            <div class="reclamation-response">
+                                                <div class="response-header">
+                                                    <i class="fas fa-reply"></i>
+                                                    <span>Réponse de l'administrateur :</span>
+                                                </div>
+                                                <div class="response-content">
+                                                    ${reclamation.reponseAdmin}
+                                                </div>
+                                            </div>
+                                        </c:if>
                                         
                                         <c:if test="${sessionScope.sessionUser.role == 'ADMIN'}">
                                             <div class="reclamation-user-info">
@@ -606,6 +679,16 @@
                     once: true
                 });
             }
+
+            // Marquer les réclamations comme lues lorsqu'elles sont affichées
+            const reclamationItems = document.querySelectorAll('.reclamation-item');
+            reclamationItems.forEach(item => {
+                const hasNewResponse = item.querySelector('.new-response-badge');
+                if (hasNewResponse) {
+                    // Ici vous pourriez appeler une API pour marquer comme lu
+                    console.log('Nouvelle réponse détectée, marquer comme lue');
+                }
+            });
         });
     </script>
 
