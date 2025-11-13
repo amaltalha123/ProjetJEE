@@ -226,6 +226,7 @@ if (request.getAttribute("servlet_executed") == null) {
         .reclamation-header {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 10px;
             font-size: 0.95em;
         }
@@ -297,6 +298,69 @@ if (request.getAttribute("servlet_executed") == null) {
             cursor: not-allowed;
         }
 
+        /* Filtres */
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #3498db;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #3498db;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .role-badge {
+            font-size: 0.8em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+        .role-client {
+            background: #3498db;
+        }
+        .role-manager {
+            background: #e67e22;
+        }
+        .role-admin {
+            background: #e74c3c;
+        }
+
+        /* Styles pour la date */
+        .reclamation-date {
+            color: #777;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .reclamation-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .reclamation-id {
+            color: #999;
+            font-weight: 500;
+        }
+
         /* === Responsive === */
         @media (max-width: 768px) {
             .admin-sidebar {
@@ -329,6 +393,21 @@ if (request.getAttribute("servlet_executed") == null) {
             .reclamation-content.preview {
                 max-width: 300px;
             }
+            
+            .filters-section {
+                padding: 15px;
+            }
+            
+            .reclamation-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .reclamation-meta {
+                align-items: flex-start;
+                text-align: left;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -357,10 +436,26 @@ if (request.getAttribute("servlet_executed") == null) {
                     </div>
                 </div>
 
+                <!-- Filtres par rôle -->
+                <div class="filters-section">
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <span style="font-weight: 500; color: #555;">Filtrer par :</span>
+                        <a href="${pageContext.request.contextPath}/admin/reclamations" 
+                           class="filter-btn ${empty selectedRole ? 'active' : ''}">Toutes</a>
+                        <a href="${pageContext.request.contextPath}/admin/reclamations?role=client" 
+                           class="filter-btn ${selectedRole == 'client' ? 'active' : ''}">Clients</a>
+                        <a href="${pageContext.request.contextPath}/admin/reclamations?role=manager" 
+                           class="filter-btn ${selectedRole == 'manager' ? 'active' : ''}">Managers</a>
+                    </div>
+                </div>
+
                 <!-- Info pagination -->
                 <div class="pagination-info">
                     Affichage des réclamations ${startItem} à ${endItem} sur ${totalCount}  
                     | Page ${currentPage} / ${totalPages}
+                    <c:if test="${not empty selectedRole}">
+                        | Filtre: ${selectedRole}
+                    </c:if>
                 </div>
 
                 <!-- Liste des réclamations -->
@@ -377,21 +472,57 @@ if (request.getAttribute("servlet_executed") == null) {
                                             <c:choose>
                                                 <c:when test="${not empty reclamation.utilisateur}">
                                                     ${reclamation.utilisateur.nom} (${reclamation.utilisateur.email})
+                                                    <!-- Indicateur de rôle -->
+                                                    <span class="role-badge ${reclamation.utilisateur.role == 'CLIENT' ? 'role-client' : 'role-manager'}">
+                                                        ${reclamation.utilisateur.role}
+                                                    </span>
                                                 </c:when>
-                                                <c:otherwise>Utilisateur inconnu</c:otherwise>
+                                                <c:otherwise>
+                                                    <span>Utilisateur inconnu</span>
+                                                </c:otherwise>
                                             </c:choose>
                                         </span>
-                                        <span style="color: #999;">#${reclamation.id}</span>
+                                        <div class="reclamation-meta">
+                                            <span class="reclamation-id">#${reclamation.id}</span>
+                                            <!-- CORRECTION : Formatage propre de la date -->
+                                            <c:if test="${not empty reclamation.dateCreation}">
+                                                <div class="reclamation-date">
+                                                    <i class="fas fa-calendar"></i>
+                                                    <!-- Format: "15/12/2024 14:30" -->
+                                                    ${reclamation.dateCreation.toLocalDate().getDayOfMonth()}/
+                                                    ${reclamation.dateCreation.toLocalDate().getMonthValue()}/
+                                                    ${reclamation.dateCreation.toLocalDate().getYear()}
+                                                    à 
+                                                    ${reclamation.dateCreation.toLocalTime().getHour()}:
+                                                    ${reclamation.dateCreation.toLocalTime().getMinute() < 10 ? '0' : ''}${reclamation.dateCreation.toLocalTime().getMinute()}
+                                                </div>
+                                            </c:if>
+                                        </div>
                                     </div>
                                     <div class="reclamation-content preview">${reclamation.contenu}</div>
-                                    <div>
-                                        <a href="${pageContext.request.contextPath}/admin/reclamation-detail?id=${reclamation.id}">Voir détails →</a>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <a href="${pageContext.request.contextPath}/admin/reclamation-detail?id=${reclamation.id}">
+                                            Voir détails →
+                                        </a>
+                                        <c:if test="${not empty reclamation.reponseAdmin}">
+                                            <span style="color: #27ae60; font-size: 0.85em;">
+                                                <i class="fas fa-reply"></i> Répondu
+                                            </span>
+                                        </c:if>
                                     </div>
                                 </div>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
-                            <div class="empty-message">📭 Aucune réclamation trouvée</div>
+                            <div class="empty-message">
+                                <i class="fas fa-inbox" style="font-size: 3em; margin-bottom: 15px; color: #bdc3c7;"></i>
+                                <p>📭 Aucune réclamation trouvée</p>
+                                <c:if test="${not empty selectedRole}">
+                                    <p style="font-size: 0.9em; color: #7f8c8d;">
+                                        Essayez de changer le filtre ou vérifiez s'il y a des réclamations pour ce rôle.
+                                    </p>
+                                </c:if>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -401,8 +532,8 @@ if (request.getAttribute("servlet_executed") == null) {
                     <div class="pagination">
                         <c:choose>
                             <c:when test="${currentPage > 1}">
-                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=1">« Premier</a>
-                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=${currentPage - 1}">‹ Préc</a>
+                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=1${not empty selectedRole ? '&role=' += selectedRole : ''}">« Premier</a>
+                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=${currentPage - 1}${not empty selectedRole ? '&role=' += selectedRole : ''}">‹ Préc</a>
                             </c:when>
                             <c:otherwise>
                                 <span class="disabled">« Premier</span>
@@ -416,15 +547,15 @@ if (request.getAttribute("servlet_executed") == null) {
                                     <span class="current">${i}</span>
                                 </c:when>
                                 <c:when test="${i >= currentPage - 2 && i <= currentPage + 2}">
-                                    <a href="${pageContext.request.contextPath}/admin/reclamations?page=${i}">${i}</a>
+                                    <a href="${pageContext.request.contextPath}/admin/reclamations?page=${i}${not empty selectedRole ? '&role=' += selectedRole : ''}">${i}</a>
                                 </c:when>
                             </c:choose>
                         </c:forEach>
 
                         <c:choose>
                             <c:when test="${currentPage < totalPages}">
-                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=${currentPage + 1}">Suiv ›</a>
-                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=${totalPages}">Dernier »</a>
+                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=${currentPage + 1}${not empty selectedRole ? '&role=' += selectedRole : ''}">Suiv ›</a>
+                                <a href="${pageContext.request.contextPath}/admin/reclamations?page=${totalPages}${not empty selectedRole ? '&role=' += selectedRole : ''}">Dernier »</a>
                             </c:when>
                             <c:otherwise>
                                 <span class="disabled">Suiv ›</span>

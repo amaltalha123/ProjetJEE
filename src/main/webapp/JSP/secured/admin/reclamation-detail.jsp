@@ -178,6 +178,9 @@
             color: #2c3e50;
             margin-bottom: 15px;
             font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .message-content {
@@ -221,6 +224,98 @@
             color: #2980b9;
         }
 
+        /* Styles pour les réponses */
+        .response-section {
+            margin-bottom: 30px;
+        }
+
+        .response-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .response-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .submit-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .alert-success {
+            color: #27ae60;
+            background: #f0f9f0;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border-left: 4px solid #27ae60;
+            margin-top: 10px;
+        }
+
+        .alert-error {
+            color: #e74c3c;
+            background: #fdf2f2;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border-left: 4px solid #e74c3c;
+            margin-top: 10px;
+        }
+
+        .role-badge {
+            font-size: 0.8em;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: white;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+        .role-client {
+            background: #3498db;
+        }
+        .role-manager {
+            background: #e67e22;
+        }
+        .role-admin {
+            background: #e74c3c;
+        }
+
+        .status-badge {
+            font-size: 0.8em;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: white;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+        .status-new {
+            background: #e74c3c;
+        }
+        .status-read {
+            background: #27ae60;
+        }
+
         /* === Responsive === */
         @media (max-width: 768px) {
             .admin-sidebar {
@@ -250,6 +345,10 @@
                 flex-direction: column;
                 gap: 10px;
             }
+            
+            .reclamation-header h2 {
+                font-size: 1.5em;
+            }
         }
     </style>
 </head>
@@ -259,7 +358,7 @@
         
         <main class="admin-main">
             <div class="admin-header">
-                <a href="${pageContext.request.contextPath}/admin/reclamations" class="back-link">
+                <a href="${pageContext.request.contextPath}/admin/reclamations${not empty param.role ? '?role=' += param.role : ''}" class="back-link">
                     <i class="fas fa-arrow-left"></i>
                     Retour aux réclamations
                 </a>
@@ -269,31 +368,98 @@
             <div class="content-section">
                 <div class="reclamation-detail">
                     <div class="reclamation-header">
-                        <h2>Réclamation #${reclamation.id}</h2>
+                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 15px;">
+                            <h2>Réclamation #${reclamation.id}</h2>
+                            <span class="status-badge ${reclamation.etat ? 'status-read' : 'status-new'}">
+                                ${reclamation.etat ? 'Lue' : 'Nouvelle'}
+                            </span>
+                        </div>
                         <div class="user-info">
-                            <p style="margin: 0;">
+                            <p style="margin: 0; display: flex; align-items: center;">
                                 <strong>De:</strong> 
                                 <c:choose>
                                     <c:when test="${not empty reclamation.utilisateur}">
-                                        ${reclamation.utilisateur.nom} (${reclamation.utilisateur.email})
+                                        <span style="margin-left: 8px;">
+                                            ${reclamation.utilisateur.nom} (${reclamation.utilisateur.email})
+                                        </span>
+                                        <span class="role-badge ${reclamation.utilisateur.role == 'CLIENT' ? 'role-client' : reclamation.utilisateur.role == 'MANAGER' ? 'role-manager' : 'role-admin'}">
+                                            ${reclamation.utilisateur.role}
+                                        </span>
                                     </c:when>
                                     <c:otherwise>
-                                        Utilisateur inconnu
+                                        <span style="margin-left: 8px;">Utilisateur inconnu</span>
                                     </c:otherwise>
                                 </c:choose>
                             </p>
                         </div>
                     </div>
                     
+                    <!-- Message de la réclamation -->
                     <div class="message-section">
-                        <h3>Message:</h3>
+                        <h3>
+                            <i class="fas fa-envelope"></i>
+                            Message de la réclamation
+                        </h3>
                         <div class="message-content">
                             ${reclamation.contenu}
                         </div>
                     </div>
                     
-                    <div>
-                        <a href="${pageContext.request.contextPath}/admin/reclamations" class="back-link">
+                    <!-- Section réponse admin existante -->
+                    <c:if test="${not empty reclamation.reponseAdmin}">
+                    <div class="message-section">
+                        <h3 style="color: #27ae60;">
+                            <i class="fas fa-reply"></i> 
+                            Votre réponse
+                        </h3>
+                        <div class="message-content" style="border-left-color: #27ae60; background: #f0f9f0;">
+                            ${reclamation.reponseAdmin}
+                        </div>
+                    </div>
+                    </c:if>
+
+                    <!-- Formulaire de réponse -->
+                    <div class="message-section">
+                        <h3>
+                            <i class="fas fa-reply"></i> 
+                            <c:choose>
+                                <c:when test="${not empty reclamation.reponseAdmin}">Modifier la réponse</c:when>
+                                <c:otherwise>Répondre à cette réclamation</c:otherwise>
+                            </c:choose>
+                        </h3>
+                        <form action="${pageContext.request.contextPath}/admin/repondre-reclamation" method="post" class="response-form">
+                            <input type="hidden" name="id" value="${reclamation.id}">
+                            <div style="margin-bottom: 15px;">
+                                <textarea name="reponse" rows="6" class="response-textarea" 
+                                          placeholder="Tapez votre réponse ici...">${reclamation.reponseAdmin}</textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i> 
+                                <c:choose>
+                                    <c:when test="${not empty reclamation.reponseAdmin}">Modifier la réponse</c:when>
+                                    <c:otherwise>Envoyer la réponse</c:otherwise>
+                                </c:choose>
+                            </button>
+                            
+                            <!-- Messages de statut -->
+                            <c:if test="${param.success == '1'}">
+                                <div class="alert-success">
+                                    <i class="fas fa-check-circle"></i> 
+                                    Réponse envoyée avec succès!
+                                </div>
+                            </c:if>
+                            <c:if test="${param.error == '1'}">
+                                <div class="alert-error">
+                                    <i class="fas fa-exclamation-circle"></i> 
+                                    Erreur lors de l'envoi de la réponse.
+                                </div>
+                            </c:if>
+                        </form>
+                    </div>
+                    
+                    <!-- Bouton retour -->
+                    <div style="margin-top: 30px;">
+                        <a href="${pageContext.request.contextPath}/admin/reclamations${not empty param.role ? '?role=' += param.role : ''}" class="back-link">
                             <i class="fas fa-arrow-left"></i>
                             Retour à la liste
                         </a>

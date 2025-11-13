@@ -1,6 +1,7 @@
 package com.projet.jee.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reclamation")
@@ -15,39 +16,68 @@ public class Reclamation {
 
     private boolean etat;
 
+    @Column(name = "reponse_admin", columnDefinition = "TEXT")
+    private String reponseAdmin;
+
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
-	public int getId() {
-		return id;
-	}
+    @Column(name = "date_creation")
+    private LocalDateTime dateCreation;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    // PrePersist pour set automatiquement la date
+    @PrePersist
+    protected void onCreate() {
+        dateCreation = LocalDateTime.now();
+    }
 
-	public String getContenu() {
-		return contenu;
-	}
+    // Getters et setters COMPLETS
+    public int getId() {
+        return id;
+    }
 
-	public void setContenu(String contenu) {
-		this.contenu = contenu;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public boolean isEtat() {
-		return etat;
-	}
+    public String getContenu() {
+        return contenu;
+    }
 
-	public void setEtat(boolean etat) {
-		this.etat = etat;
-	}
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
 
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
-	}
+    public boolean isEtat() {
+        return etat;
+    }
 
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
+    public void setEtat(boolean etat) {
+        this.etat = etat;
+    }
+
+    public String getReponseAdmin() {
+        return reponseAdmin;
+    }
+
+    public void setReponseAdmin(String reponseAdmin) {
+        this.reponseAdmin = reponseAdmin;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
+    }
 }

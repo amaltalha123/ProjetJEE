@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import com.projet.jee.dao.ReclamationRepository;
 import com.projet.jee.model.Reclamation;
+import com.projet.jee.model.Role; // IMPORTANT: Ajoutez cet import
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 public class ReclamationServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(ReclamationServlet.class.getName());
     private ReclamationRepository reclamationRepo;
-    private static final int PAGE_SIZE = 10; // 10 réclamations par page
+    private static final int PAGE_SIZE = 10;
     
     @Override
     public void init() throws ServletException {
@@ -25,7 +26,7 @@ public class ReclamationServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
-            // Récupérer le numéro de page (par défaut: page 1)
+            // Récupérer les paramètres
             int page = 1;
             String pageParam = request.getParameter("page");
             if (pageParam != null && !pageParam.isEmpty()) {
@@ -37,11 +38,37 @@ public class ReclamationServlet extends HttpServlet {
                 }
             }
             
-            // Récupérer les données
-            Map<Reclamation, Boolean> reclamationsWithStatus = reclamationRepo.findAllWithReadStatus(page, PAGE_SIZE);
-            int totalCount = reclamationRepo.getTotalCount();
-            int unreadCount = reclamationRepo.getUnreadCount();
-            int readCount = totalCount - unreadCount;
+            // Récupérer le filtre par rôle
+            String roleFilter = request.getParameter("role");
+            Role role = null;
+            if (roleFilter != null && !roleFilter.isEmpty()) {
+                try {
+                    role = Role.valueOf(roleFilter.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    // Rôle invalide, on garde null pour tout afficher
+                    logger.warning("Rôle invalide: " + roleFilter);
+                }
+            }
+            
+            // Récupérer les données selon le filtre
+            Map<Reclamation, Boolean> reclamationsWithStatus;
+            int totalCount;
+            int unreadCount;
+            int readCount;
+            
+            if (role != null) {
+                // Filtrage par rôle
+                reclamationsWithStatus = reclamationRepo.findAllWithReadStatusByRole(page, PAGE_SIZE, role);
+                totalCount = reclamationRepo.getCountByRole(role);
+                unreadCount = reclamationRepo.getUnreadCountByRole(role);
+                readCount = totalCount - unreadCount;
+            } else {
+                // Toutes les réclamations
+                reclamationsWithStatus = reclamationRepo.findAllWithReadStatus(page, PAGE_SIZE);
+                totalCount = reclamationRepo.getTotalCount();
+                unreadCount = reclamationRepo.getUnreadCount();
+                readCount = totalCount - unreadCount;
+            }
             
             // Calculer les informations de pagination
             int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -61,11 +88,13 @@ public class ReclamationServlet extends HttpServlet {
             request.setAttribute("pageSize", PAGE_SIZE);
             request.setAttribute("startItem", startItem);
             request.setAttribute("endItem", endItem);
+            request.setAttribute("selectedRole", roleFilter);
             request.setAttribute("servlet_executed", "YES");
             
             request.getRequestDispatcher("/JSP/secured/admin/reclamations.jsp").forward(request, response);
             
         } catch (Exception e) {
+            logger.severe("Erreur dans ReclamationServlet: " + e.getMessage());
             e.printStackTrace();
             response.sendError(500, "Erreur: " + e.getMessage());
         }
