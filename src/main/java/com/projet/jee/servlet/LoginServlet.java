@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
                 	response.sendRedirect(request.getContextPath() + "/admin/dashboard");
 
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/JSP/secured/user/dashboard.jsp");
+                    response.sendRedirect(request.getContextPath());
                 }
             } else {
                 request.setAttribute("error", "Email ou mot de passe incorrect");

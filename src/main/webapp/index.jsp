@@ -19,6 +19,7 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#hero">Accueil</a></li>
         <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/secured/ClientReclamation">Reclamation</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
       </ul>
@@ -36,7 +37,7 @@
           <h1 class="display-4 fw-bold">Services de Plomberie</h1>
           <p class="lead">Interventions rapides et efficaces pour tous vos problèmes de plomberie.</p>
           <a href="/ProjetJEE/login" class="btn btn-light btn-lg mt-3">
-  Réserver un service
+  Créer un service
 </a>
         </div>
       </div>
