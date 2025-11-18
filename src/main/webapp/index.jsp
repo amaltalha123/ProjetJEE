@@ -18,7 +18,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#hero">Accueil</a></li>
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/services">Services</a></li>
         <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/secured/ClientReclamation">Reclamation</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -34,7 +34,7 @@
       <div class="carousel-item active">
         <img src="CSS/electricity.jpeg" class="d-block w-100" alt="Plomberie">
         <div class="carousel-caption d-flex flex-column justify-content-center h-100 text-white">
-          <h1 class="display-4 fw-bold">Services de Plomberie</h1>
+          <h1 class="display-4 fw-bold">Nos Services</h1>
           <p class="lead">Interventions rapides et efficaces pour tous vos problèmes de plomberie.</p>
           <a href="/ProjetJEE/login" class="btn btn-light btn-lg mt-3">
   Créer un service

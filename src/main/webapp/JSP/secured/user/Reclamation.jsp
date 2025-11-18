@@ -439,7 +439,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/services">Services</a></li>
                     <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/secured/ClientReclamation">Reclamation</a></li>
                 </ul>
             </div>
