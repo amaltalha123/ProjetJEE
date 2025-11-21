@@ -307,6 +307,11 @@
                 <h3>Tableau de Bord Statistiques</h3>
                 <p>Consulter vos statistiques de performance</p>
             </a>
+            <a href="${pageContext.request.contextPath}/manager/mes-demandes" class="menu-card">
+        <div class="menu-icon">📋</div>
+        <h3>Gestion des demandes</h3>
+        <p>Consultez et gérez les demandes des clients.</p>
+    </a>
         </div>
     </c:if>
 </div>

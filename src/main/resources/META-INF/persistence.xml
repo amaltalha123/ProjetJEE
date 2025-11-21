@@ -8,9 +8,13 @@
 
         <class>com.projet.jee.model.Utilisateur</class>
         <class>com.projet.jee.model.Reclamation</class>
+        <class>com.projet.jee.model.Demande</class>
         <class>com.projet.jee.model.Service</class>
         <class>com.projet.jee.model.ServicePhoto</class> 
         <class>com.projet.jee.model.Fonctionnalite</class>
+        <class>com.projet.jee.model.Manager</class>
+        <class>com.projet.jee.model.Role</class>
+        
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

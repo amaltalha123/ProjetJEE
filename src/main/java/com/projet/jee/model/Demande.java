@@ -13,6 +13,7 @@ public class Demande {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+
     @Enumerated(EnumType.STRING)
     private StatutDemande statut;
 
@@ -32,13 +33,13 @@ public class Demande {
 		this.id = id;
 	}
 
-	public String getDescription() {
+		public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+		public void setDescription(String description) {
+			this.description = description;
+		}
 
 	public StatutDemande getStatut() {
 		return statut;
