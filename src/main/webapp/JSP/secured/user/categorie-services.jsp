@@ -346,12 +346,12 @@
                         </c:forEach>
                       </div>
                     </div>
-                    <div class="service-footer">
-                      <a href="#"
-                         class="service-btn">
-                        Voir détails du service <i class="fas fa-arrow-right"></i>
-                      </a>
-                    </div>
+                  <div class="service-footer">
+                        <a href="http://localhost:8082/ProjetJEE/ServiceDetailsClientServlet?id=${s.id}" class="service-btn">
+                           Voir details du service
+                          <i class="fas fa-arrow-right"></i>
+                        </a>
+                      </div>
                   </div>
                 </div>
               </c:forEach>
