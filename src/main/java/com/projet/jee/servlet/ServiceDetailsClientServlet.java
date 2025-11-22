@@ -28,6 +28,7 @@ import com.projet.jee.model.Fonctionnalite;
 import com.projet.jee.model.Categorie;
 import com.projet.jee.model.Commentaire;
 import com.projet.jee.model.Manager;
+import com.projet.jee.dao.CommentaireRepository; // Import du repository
 
 @WebServlet("/ServiceDetailsClientServlet")
 public class ServiceDetailsClientServlet extends HttpServlet {
@@ -87,17 +88,8 @@ public class ServiceDetailsClientServlet extends HttpServlet {
                                            .getResultList();
 
             // Récupérer les commentaires liés au service
-            TypedQuery<Commentaire> commentaireQuery = em.createQuery(
-                "SELECT c FROM Commentaire c " +
-                "JOIN FETCH c.auteur a " +
-                "WHERE c.service.id = :serviceId " +
-                "ORDER BY c.dateCreation DESC",
-                Commentaire.class
-            );
-            commentaireQuery.setParameter("serviceId", id);
-            List<Commentaire> commentaires = commentaireQuery.getResultList();
-
-            // Créer une liste de Map pour stocker chaque commentaire + photo Base64
+            CommentaireRepository commentaireRepository = new CommentaireRepository(em);
+            List<Commentaire> commentaires = commentaireRepository.findByServiceId(id);
             List<Map<String, String>> commentairesAvecPhoto = new ArrayList<>();
             for (Commentaire c : commentaires) {
                 Map<String, String> map = new HashMap<>();

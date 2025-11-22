@@ -1,21 +1,24 @@
 package com.projet.jee.model;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "Demande")
+@Table(name = "demande")
 public class Demande {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
 
 
     @Enumerated(EnumType.STRING)
     private StatutDemande statut;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_intervention")
+    private Date dateIntervention; // ✅ nouvelle colonne
 
     @ManyToOne
     @JoinColumn(name = "service_id")
@@ -24,6 +27,10 @@ public class Demande {
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
+
+    // Getters et Setters
+
+
 
 	public int getId() {
 		return id;
@@ -63,5 +70,12 @@ public class Demande {
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+	public Date getDateIntervention() {
+	    return dateIntervention;
+	}
+
+	public void setDateIntervention(Date dateIntervention) {
+	    this.dateIntervention = dateIntervention;
 	}
 }

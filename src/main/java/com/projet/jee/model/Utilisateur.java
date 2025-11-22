@@ -109,5 +109,11 @@ public class Utilisateur {
 	}
 
     // Getters & setters
+	public Utilisateur() {}
+
+	public Utilisateur(int id) {
+	    this.id = id;
+	}
+
 }
 

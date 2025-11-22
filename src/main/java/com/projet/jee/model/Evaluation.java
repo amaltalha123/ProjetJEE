@@ -3,14 +3,14 @@ package com.projet.jee.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Evaluation")
+@Table(name = "evaluation")
 public class Evaluation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = true)
     private String contenu;
 
     private int nbr_etoile; // contrainte à gérer côté code/service
@@ -18,6 +18,10 @@ public class Evaluation {
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private DetailService service;
 
 	public int getId() {
 		return id;
@@ -47,7 +51,15 @@ public class Evaluation {
 		return utilisateur;
 	}
 
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
+public void setUtilisateur(Utilisateur utilisateur) {
+			this.utilisateur = utilisateur;
+		}
+
+		public DetailService getService() {
+			return service;
+		}
+
+		public void setService(DetailService service) {
+			this.service = service;
+		}
 }

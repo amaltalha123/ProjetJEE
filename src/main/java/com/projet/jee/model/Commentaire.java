@@ -1,11 +1,11 @@
 package com.projet.jee.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Commentaire")
+@Table(name = "commentaire")
 public class Commentaire {
 
     @Id
@@ -15,7 +15,7 @@ public class Commentaire {
     @Column(columnDefinition = "TEXT")
     private String contenu;  // Le texte du commentaire
 
-    private LocalDateTime dateCreation;  // Date et heure de création
+    private Date dateCreation;  // Date et heure de création
 
     @ManyToOne
     @JoinColumn(name = "auteur_id", nullable = false)  // Clé étrangère vers Utilisateur
@@ -23,16 +23,16 @@ public class Commentaire {
 
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)
-    private Service service;  // Relation vers le service
+    private DetailService service;  // Relation vers le service
 
     // Constructeurs
     public Commentaire() {}
 
-    public Commentaire(String contenu, Utilisateur auteur, Service service) {
+    public Commentaire(String contenu, Utilisateur auteur, DetailService service) {
         this.contenu = contenu;
         this.auteur = auteur;
         this.service = service;
-        this.dateCreation = LocalDateTime.now();  // Définit automatiquement la date
+        this.dateCreation = new Date();  // Définit automatiquement la date
     }
 
     // Getters et setters
@@ -52,11 +52,11 @@ public class Commentaire {
         this.contenu = contenu;
     }
 
-    public LocalDateTime getDateCreation() {
+    public Date getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(LocalDateTime dateCreation) {
+    public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -68,11 +68,11 @@ public class Commentaire {
         this.auteur = auteur;
     }
 
-    public Service getService() {
+    public DetailService getService() {
         return service;
     }
 
-    public void setService(Service service) {
+    public void setService(DetailService service) {
         this.service = service;
     }
 }

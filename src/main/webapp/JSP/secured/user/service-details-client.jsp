@@ -14,133 +14,196 @@
   <link href="${pageContext.request.contextPath}/JSP/secured/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
 
   <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #0290d2 100%);
+      --primary-color: #0290d2;
+      --secondary-color: #2c3e50;
+      --accent-color: #ffc107;
+    }
+    
     body {
       padding-top: 80px;
-      background-color: #f8f9fa;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
     .service-content {
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.1);
       overflow: hidden;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+    }
+    
+    .service-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
     }
     
     .service-image-main {
       width: 100%;
-      height: 400px;
+      height: 450px;
       object-fit: cover;
+      transition: transform 0.5s ease;
+      cursor: pointer;
+    }
+    
+    .service-image-main:hover {
+      transform: scale(1.02);
     }
     
     .service-info {
-      padding: 30px;
+      padding: 40px;
+      position: relative;
     }
     
     .service-title {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      color: #2c3e50;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .service-category {
-      background: #e3f2fd;
-      color: #1976d2;
-      padding: 8px 16px;
-      border-radius: 20px;
+      background: var(--primary-gradient);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
       font-weight: 600;
       display: inline-block;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(2, 144, 210, 0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .service-category:hover {
+      transform: translateY(-2px);
     }
     
     .service-description {
-      font-size: 1.1rem;
-      line-height: 1.7;
+      font-size: 1.15rem;
+      line-height: 1.8;
       color: #555;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
     }
     
     .features-section {
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 10px;
-      margin: 25px 0;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 40px;
+      border-radius: 15px;
+      margin: 30px 0;
+      border-left: 5px solid var(--primary-color);
     }
     
     .feature-item {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
-      padding: 12px;
+      margin-bottom: 15px;
+      padding: 15px;
       background: white;
-      border-radius: 8px;
-      border-left: 4px solid #0290d2;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      border-left: 4px solid var(--primary-color);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .feature-item:hover {
+      transform: translateX(10px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     }
     
     .feature-item i {
-      color: #0290d2;
-      margin-right: 12px;
-      font-size: 1.1rem;
+      color: var(--primary-color);
+      margin-right: 15px;
+      font-size: 1.3rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-item:hover i {
+      transform: scale(1.2);
     }
     
     .gallery-section {
-      margin: 30px 0;
-      padding: 0 25px;
+      margin: 40px 0;
+      padding: 0 40px;
     }
     
     .gallery-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #2c3e50;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: var(--secondary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
     .gallery-image {
       width: 100%;
       height: 200px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
     
     .gallery-image:hover {
-      transform: scale(1.05);
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     
     .comments-section {
-      margin: 40px 0;
-      padding: 0 25px 25px;
+      margin: 50px 0;
+      padding: 0 40px 40px;
     }
     
     .comment-card {
       background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-      border-left: 4px solid #0290d2;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      border-left: 4px solid var(--primary-color);
+      transition: all 0.3s ease;
+    }
+    
+    .comment-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
     
     .comment-header {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
     
     .comment-avatar {
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       object-fit: cover;
       margin-right: 15px;
+      border: 3px solid var(--primary-color);
+      transition: transform 0.3s ease;
+    }
+    
+    .comment-card:hover .comment-avatar {
+      transform: scale(1.1);
     }
     
     .comment-author {
-      font-weight: 600;
-      color: #2c3e50;
+      font-weight: 700;
+      color: var(--secondary-color);
       margin: 0;
     }
     
@@ -152,55 +215,59 @@
     
     .comment-content {
       color: #555;
-      line-height: 1.6;
+      line-height: 1.7;
       margin: 0;
     }
     
     .back-button {
-      background: #6c757d;
+      background: var(--secondary-color);
       color: white;
       border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
+      padding: 12px 30px;
+      border-radius: 10px;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       transition: all 0.3s ease;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
     }
     
     .back-button:hover {
-      background: #5a6268;
+      background: var(--primary-color);
       color: white;
       text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(2, 144, 210, 0.4);
     }
     
     .action-buttons {
       display: flex;
-      gap: 15px;
-      margin-top: 20px;
+      gap: 20px;
+      margin-top: 30px;
       flex-wrap: wrap;
     }
     
     .btn-primary-custom {
-      background: linear-gradient(135deg, #667eea 0%, #0290d2 100%);
+      background: var(--primary-gradient);
       border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
+      padding: 15px 30px;
+      border-radius: 12px;
       color: white;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      font-weight: 500;
+      gap: 10px;
+      transition: all 0.4s ease;
+      font-weight: 600;
       cursor: pointer;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
     }
     
     .btn-primary-custom:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
       color: white;
       text-decoration: none;
     }
@@ -209,15 +276,15 @@
       text-align: center;
       color: #6c757d;
       font-style: italic;
-      padding: 40px 0;
+      padding: 60px 0;
     }
 
-    /* Style pour le système d'étoiles */
+    /* Style pour le système d'étoiles amélioré */
     .rating-stars {
       display: flex;
       flex-direction: row-reverse;
-      justify-content: flex-end;
-      gap: 5px;
+      justify-content: flex-start;
+      gap: 8px;
     }
 
     .rating-stars input[type="radio"] {
@@ -225,86 +292,112 @@
     }
 
     .star-label {
-      font-size: 2rem;
-      color: #ddd;
-      cursor: not-allowed;
-      transition: color 0.2s;
+      font-size: 2.2rem;
+      color: #e0e0e0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .rating-stars input[type="radio"]:checked ~ .star-label,
     .star-label:hover,
-    .star-label:hover ~ .star-label {
-      color: #ffc107;
+    .star-label:hover ~ .star-label,
+    .rating-stars input[type="radio"]:checked ~ .star-label {
+      color: var(--accent-color);
+      transform: scale(1.1);
+      text-shadow: 0 3px 10px rgba(255, 193, 7, 0.3);
     }
 
-    /* Style pour la modale manager */
+    /* Style pour la modale manager améliorée */
     .manager-avatar img {
-      border: 4px solid #e9ecef;
+      border: 4px solid var(--primary-color);
+      box-shadow: 0 5px 20px rgba(2, 144, 210, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .manager-avatar img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(2, 144, 210, 0.4);
     }
 
     .detail-item {
-      padding: 8px 0;
+      padding: 12px 0;
       border-bottom: 1px solid #f8f9fa;
+      transition: all 0.3s ease;
+    }
+
+    .detail-item:hover {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding-left: 15px;
     }
 
     .manager-name {
-      color: #2c3e50;
-      font-weight: 600;
+      color: var(--secondary-color);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    /* Style pour le formulaire de commentaire désactivé */
-    .comment-form-card .form-control:disabled,
-    .comment-form-card .btn:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
+    /* Style pour le formulaire de commentaire */
     .comment-form-card {
-      background: #f8f9fa;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      border-left: 4px solid #0290d2;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-left: 5px solid var(--primary-color);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     }
 
-    /* Évaluation manager */
+    /* Évaluation manager améliorée */
     .manager-rating {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin: 10px 0;
+      gap: 15px;
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
     }
 
     .rating-stars-small {
       display: flex;
-      gap: 2px;
+      gap: 3px;
     }
 
     .rating-star {
-      color: #ddd;
-      font-size: 1.2rem;
+      color: #e0e0e0;
+      font-size: 1.4rem;
+      transition: all 0.3s ease;
     }
 
     .rating-star.filled {
-      color: #ffc107;
+      color: var(--accent-color);
+      text-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);
     }
 
     .rating-value {
-      font-weight: 600;
-      color: #2c3e50;
-      background: #f8f9fa;
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid #dee2e6;
+      font-weight: 700;
+      color: var(--secondary-color);
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding: 8px 16px;
+      border-radius: 25px;
+      border: 2px solid var(--primary-color);
     }
 
     .evaluation-count {
-      font-size: 0.9rem;
-      color: #6c757d;
+      font-size: 1rem;
+      color: var(--secondary-color);
+      font-weight: 500;
     }
 
-    /* Galerie Modal */
+    /* Galerie Modal améliorée */
     .gallery-modal {
       display: none;
       position: fixed;
@@ -316,16 +409,23 @@
       z-index: 9999;
       justify-content: center;
       align-items: center;
+      backdrop-filter: blur(10px);
     }
 
     .gallery-modal.active {
       display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .gallery-modal-content {
-      width: 90%;
-      max-width: 1200px;
-      height: 90vh;
+      width: 95%;
+      max-width: 1400px;
+      height: 95vh;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -333,26 +433,27 @@
 
     .gallery-close-btn {
       position: absolute;
-      top: -50px;
+      top: -60px;
       right: 0;
       background: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       cursor: pointer;
       font-size: 1.5rem;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 10001;
+      backdrop-filter: blur(10px);
     }
 
     .gallery-close-btn:hover {
       background: rgba(255, 255, 255, 0.3);
-      transform: rotate(90deg);
+      transform: rotate(90deg) scale(1.1);
     }
 
     .gallery-image-container {
@@ -361,131 +462,162 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .modal-gallery-img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-      transition: opacity 0.3s ease;
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: all 0.5s ease;
+      animation: zoomIn 0.4s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .gallery-arrow {
       position: absolute;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       border: none;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 2rem;
-      color: #2c3e50;
+      font-size: 2.2rem;
+      color: var(--secondary-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       z-index: 10;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     }
 
     .gallery-arrow:hover {
       background: white;
-      transform: scale(1.1);
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      transform: scale(1.15);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     }
 
     .left-arrow {
-      left: 20px;
+      left: 30px;
     }
 
     .right-arrow {
-      right: 20px;
+      right: 30px;
     }
 
     .gallery-counter {
       position: absolute;
-      bottom: 20px;
+      bottom: 25px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.8);
       color: white;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-size: 1rem;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1.1rem;
       font-weight: 600;
+      backdrop-filter: blur(10px);
     }
 
     .gallery-thumbnails {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       overflow-x: auto;
-      padding: 10px 0;
+      padding: 15px 0;
       justify-content: center;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) transparent;
+    }
+
+    .gallery-thumbnails::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .gallery-thumbnails::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 10px;
     }
 
     .gallery-thumbnail {
-      width: 100px;
-      height: 80px;
+      width: 120px;
+      height: 90px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       border: 3px solid transparent;
-      transition: all 0.3s ease;
-      opacity: 0.6;
+      transition: all 0.4s ease;
+      opacity: 0.7;
     }
 
     .gallery-thumbnail:hover {
       opacity: 0.9;
-      transform: translateY(-3px);
+      transform: translateY(-5px) scale(1.05);
     }
 
     .gallery-thumbnail.active {
-      border-color: #0290d2;
+      border-color: var(--primary-color);
       opacity: 1;
-      box-shadow: 0 0 15px rgba(2, 144, 210, 0.5);
+      box-shadow: 0 5px 20px rgba(2, 144, 210, 0.6);
+      transform: translateY(-5px);
     }
-    .manager-rating {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 10px 0;
-}
 
-.rating-stars-small {
-  display: flex;
-  gap: 2px;
-}
+    /* Animation pour les sections */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
 
-.rating-star {
-  color: #ddd;
-  font-size: 1.2rem;
-}
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-.rating-star.filled {
-  color: #ffc107;
-}
-
-.rating-value {
-  font-weight: 600;
-  color: #2c3e50;
-  background: #f8f9fa;
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid #dee2e6;
-}
-
-.evaluation-count {
-  font-size: 0.9rem;
-  color: #6c757d;
-}
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      .service-title {
+        font-size: 2rem;
+      }
+      
+      .service-info {
+        padding: 25px;
+      }
+      
+      .gallery-section,
+      .comments-section {
+        padding: 0 25px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .gallery-arrow {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+      
+      .left-arrow {
+        left: 10px;
+      }
+      
+      .right-arrow {
+        right: 10px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- Navbar (conservé d'origine) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
   <div class="container">
     <a class="navbar-brand fw-bold" href="${pageContext.request.contextPath}">Services Interventions</a>
@@ -505,14 +637,14 @@
 <div class="container">
   <c:if test="${not empty service}">
     
-    <!-- Bouton retour -->
-    <div class="my-4">
+    <!-- Bouton retour avec animation -->
+    <div class="my-4 fade-in-section">
       <a href="${pageContext.request.contextPath}/services" class="back-button">
         <i class="bi bi-arrow-left"></i> Retour aux services
       </a>
     </div>
 
-    <div class="service-content">
+    <div class="service-content fade-in-section">
       
       <!-- En-tête avec image principale -->
       <div class="row g-0">
@@ -526,7 +658,7 @@
             </c:when>
             <c:otherwise>
               <div class="service-image-main bg-light d-flex align-items-center justify-content-center">
-                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
               </div>
             </c:otherwise>
           </c:choose>
@@ -536,7 +668,7 @@
           <div class="service-info">
             <h1 class="service-title">${service.titre}</h1>
             <span class="service-category">
-              ${service.categorie.nom}
+              <i class="bi bi-tag me-2"></i>${service.categorie.nom}
             </span>
             
             <p class="service-description">${service.description}</p>
@@ -545,21 +677,20 @@
               <button type="button" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#managerModal">
                 <i class="bi bi-telephone-fill"></i> Contacter le prestataire
               </button>
-             
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Fonctionnalités -->
-      <div class="features-section">
+      <!-- Fonctionnalités avec animation -->
+      <div class="features-section fade-in-section">
         <h3 class="gallery-title"><i class="bi bi-list-check"></i> Fonctionnalités du service</h3>
         <c:choose>
           <c:when test="${not empty service.fonctionnalites}">
             <div class="row">
-              <c:forEach var="f" items="${service.fonctionnalites}">
-                <div class="col-md-6">
-                  <div class="feature-item">
+              <c:forEach var="f" items="${service.fonctionnalites}" varStatus="status">
+                <div class="col-md-6 mb-3">
+                  <div class="feature-item" style="animation-delay: ${status.index * 0.1}s;">
                     <i class="bi bi-check-circle-fill"></i>
                     <span>${f.description}</span>
                   </div>
@@ -568,73 +699,85 @@
             </div>
           </c:when>
           <c:otherwise>
-            <p class="text-muted">Aucune fonctionnalité spécifiée pour ce service.</p>
+            <p class="text-muted text-center py-4">
+              <i class="bi bi-info-circle me-2"></i>Aucune fonctionnalité spécifiée pour ce service.
+            </p>
           </c:otherwise>
         </c:choose>
       </div>
 
-      <!-- Galerie d'images -->
+      <!-- Galerie d'images avec animation -->
       <c:if test="${fn:length(photosBase64) > 1}">
-        <div class="gallery-section">
+        <div class="gallery-section fade-in-section">
           <h3 class="gallery-title"><i class="bi bi-images"></i> Galerie du service</h3>
-          <div class="row g-3">
+          <div class="row g-4">
             <c:forEach var="photo" items="${photosBase64}" begin="1" varStatus="status">
               <div class="col-lg-3 col-md-4 col-sm-6">
                 <img src="data:image/jpeg;base64,${photo}" 
                      alt="Image ${status.index + 1}" 
                      class="gallery-image"
-                     onclick="openGalleryModal(${status.index})">
+                     onclick="openGalleryModal(${status.index})"
+                     style="animation-delay: ${status.index * 0.1}s;">
               </div>
             </c:forEach>
           </div>
         </div>
       </c:if>
 
-      <!-- Section Évaluation et Commentaires -->
-      <div class="comments-section">
+      <!-- Section Évaluation et Commentaires avec animation -->
+      <div class="comments-section fade-in-section">
         <h3 class="gallery-title"><i class="bi bi-chat-left-text"></i> Évaluations et Commentaires</h3>
         
-        <!-- Formulaire d'ajout de commentaire (statique - demande connexion) -->
-        <div class="comment-form-card mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Ajouter un commentaire</h5>
-              <form id="commentForm" action="${pageContext.request.contextPath}/login" method="GET">
-                <!-- Système d'étoiles -->
-                <div class="mb-3">
-                  <label class="form-label">Note :</label>
+        <!-- Formulaire d'ajout de commentaire -->
+        <div class="comment-form-card mb-5">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <h5 class="card-title fw-bold mb-4">
+                <i class="bi bi-pencil-square me-2"></i>Ajouter un commentaire
+              </h5>
+              <form id="commentForm" action="${pageContext.request.contextPath}/AddCommentServlet" method="POST">
+                <input type="hidden" name="serviceId" value="${service.id}">
+                
+                <!-- Système d'étoiles amélioré -->
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">Votre note :</label>
                   <div class="rating-stars">
-                    <input type="radio" id="star5" name="rating" value="5" disabled>
-                    <label for="star5" class="star-label">★</label>
-                    <input type="radio" id="star4" name="rating" value="4" disabled>
-                    <label for="star4" class="star-label">★</label>
-                    <input type="radio" id="star3" name="rating" value="3" disabled>
-                    <label for="star3" class="star-label">★</label>
-                    <input type="radio" id="star2" name="rating" value="2" disabled>
-                    <label for="star2" class="star-label">★</label>
-                    <input type="radio" id="star1" name="rating" value="1" disabled>
-                    <label for="star1" class="star-label">★</label>
+                    <input type="radio" id="star5" name="rating" value="5" ${sessionScope.sessionUser == null ? 'disabled' : ''}>
+                    <label for="star5" class="star-label" style="${sessionScope.sessionUser == null ? 'cursor: not-allowed;' : 'cursor: pointer;'}">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" ${sessionScope.sessionUser == null ? 'disabled' : ''}>
+                    <label for="star4" class="star-label" style="${sessionScope.sessionUser == null ? 'cursor: not-allowed;' : 'cursor: pointer;'}">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" ${sessionScope.sessionUser == null ? 'disabled' : ''}>
+                    <label for="star3" class="star-label" style="${sessionScope.sessionUser == null ? 'cursor: not-allowed;' : 'cursor: pointer;'}">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" ${sessionScope.sessionUser == null ? 'disabled' : ''}>
+                    <label for="star2" class="star-label" style="${sessionScope.sessionUser == null ? 'cursor: not-allowed;' : 'cursor: pointer;'}">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" ${sessionScope.sessionUser == null ? 'disabled' : ''}>
+                    <label for="star1" class="star-label" style="${sessionScope.sessionUser == null ? 'cursor: not-allowed;' : 'cursor: pointer;'}">★</label>
                   </div>
                 </div>
                 
                 <!-- Champ commentaire -->
-                <div class="mb-3">
-                  <label for="commentText" class="form-label">Votre commentaire :</label>
-                  <textarea class="form-control" id="commentText" name="comment" 
+                <div class="mb-4">
+                  <label for="commentText" class="form-label fw-semibold">Votre commentaire :</label>
+                  <textarea class="form-control border-2" id="commentText" name="comment" 
                             rows="4" placeholder="Partagez votre expérience avec ce service..." 
-                            disabled></textarea>
+                            ${sessionScope.sessionUser == null ? 'disabled' : ''}
+                            style="border-radius: 12px; padding: 15px;"></textarea>
                 </div>
                 
                 <!-- Bouton de soumission -->
-                <button type="submit" class="btn btn-primary" disabled>
-                  <i class="bi bi-send-fill"></i> Publier le commentaire
+                <button type="submit" class="btn btn-primary px-4 py-2" ${sessionScope.sessionUser == null ? 'disabled' : ''}
+                        style="border-radius: 12px; font-weight: 600;">
+                  <i class="bi bi-send-fill me-2"></i> Publier le commentaire
                 </button>
                 
                 <!-- Message d'information -->
-                <div class="alert alert-info mt-3">
-                  <i class="bi bi-info-circle"></i> 
-                  Vous devez être connecté pour ajouter un commentaire.
-                </div>
+                <c:if test="${sessionScope.sessionUser == null}">
+                  <div class="alert alert-info mt-4 border-0 shadow-sm" style="border-radius: 12px;">
+                    <i class="bi bi-info-circle me-2"></i> 
+                    Vous devez être connecté pour ajouter un commentaire.
+                    <a href="${pageContext.request.contextPath}/login" class="alert-link ms-1">Se connecter</a>
+                  </div>
+                </c:if>
               </form>
             </div>
           </div>
@@ -644,9 +787,9 @@
         <c:choose>
           <c:when test="${not empty commentaires}">
             <div class="row">
-              <c:forEach var="comment" items="${commentaires}">
-                <div class="col-12 mb-3">
-                  <div class="comment-card">
+              <c:forEach var="comment" items="${commentaires}" varStatus="status">
+                <div class="col-12 mb-4">
+                  <div class="comment-card" style="animation-delay: ${status.index * 0.1}s;">
                     <div class="comment-header">
                       <c:choose>
                         <c:when test="${not empty comment.photoAuteur}">
@@ -655,29 +798,33 @@
                                class="comment-avatar">
                         </c:when>
                         <c:otherwise>
-                          <div class="comment-avatar bg-secondary d-flex align-items-center justify-content-center text-white">
+                          <div class="comment-avatar bg-primary d-flex align-items-center justify-content-center text-white">
                             <i class="bi bi-person-fill"></i>
                           </div>
                         </c:otherwise>
                       </c:choose>
                       <div>
                         <h6 class="comment-author">${comment.nomAuteur}</h6>
-                        <small class="comment-date">${comment.dateCreation}</small>
+                        <small class="comment-date">
+                          <i class="bi bi-clock me-1"></i>${comment.dateCreation}
+                        </small>
                       </div>
                     </div>
-                    <p class="comment-content">${comment.contenu}</p>
+                    <p class="comment-content mt-3">${comment.contenu}</p>
                   </div>
                 </div>
               </c:forEach>
             </div>
           </c:when>
           <c:otherwise>
-            <div class="text-center py-4">
-              <i class="bi bi-chat-square-text display-4 text-muted"></i>
-              <p class="text-muted mt-3">Aucun avis pour le moment.</p>
-              <a href="${pageContext.request.contextPath}/login" class="btn btn-primary">
-                <i class="bi bi-pencil-square"></i> Soyez le premier à donner votre avis
-              </a>
+            <div class="text-center py-5 fade-in-section">
+              <i class="bi bi-chat-square-text display-1 text-muted mb-3"></i>
+              <h5 class="text-muted mb-3">Aucun avis pour le moment.</h5>
+              <c:if test="${sessionScope.sessionUser == null}">
+                <a href="${pageContext.request.contextPath}/login" class="btn btn-primary px-4 py-2">
+                  <i class="bi bi-pencil-square me-2"></i> Soyez le premier à donner votre avis
+                </a>
+              </c:if>
             </div>
           </c:otherwise>
         </c:choose>
@@ -687,17 +834,18 @@
   </c:if>
 
   <c:if test="${empty service}">
-    <div class="alert alert-danger text-center">
+    <div class="alert alert-danger text-center border-0 shadow-sm fade-in-section" style="border-radius: 15px;">
+      <i class="bi bi-exclamation-triangle display-4 mb-3"></i>
       <h4>Service non trouvé</h4>
-      <p>Le service que vous recherchez n'existe pas ou n'est plus disponible.</p>
-      <a href="${pageContext.request.contextPath}/services" class="btn btn-primary">
-        Retour à la liste des services
+      <p class="mb-3">Le service que vous recherchez n'existe pas ou n'est plus disponible.</p>
+      <a href="${pageContext.request.contextPath}/services" class="btn btn-primary px-4 py-2">
+        <i class="bi bi-arrow-left me-2"></i> Retour à la liste des services
       </a>
     </div>
   </c:if>
 </div>
 
-<!-- Footer -->
+<!-- Footer (conservé d'origine) -->
 <footer class="bg-dark text-light mt-5 py-4">
   <div class="container text-center">
     <p>&copy; 2024 MediNest. Tous droits réservés.</p>
@@ -742,14 +890,14 @@
 <!-- Modal Informations du Manager -->
 <div class="modal fade" id="managerModal" tabindex="-1" aria-labelledby="managerModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="managerModalLabel">
-          <i class="bi bi-person-badge"></i> Informations du Prestataire
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+      <div class="modal-header bg-primary text-white" style="border-radius: 20px 20px 0 0;">
+        <h5 class="modal-title fw-bold" id="managerModalLabel">
+          <i class="bi bi-person-badge me-2"></i> Informations du Prestataire
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body p-4">
         <div class="manager-info text-center">
           <!-- Photo du manager -->
           <div class="manager-avatar mb-3">
@@ -900,16 +1048,40 @@ document.getElementById('galleryModal').addEventListener('click', (e) => {
   }
 });
 
+// Animation au défilement
+document.addEventListener('DOMContentLoaded', function() {
+  const fadeSections = document.querySelectorAll('.fade-in-section');
+  
+  const fadeInOnScroll = function() {
+    fadeSections.forEach(section => {
+      const sectionTop = section.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (sectionTop < windowHeight - 100) {
+        section.classList.add('visible');
+      }
+    });
+  };
+  
+  // Initial check
+  fadeInOnScroll();
+  
+  // Check on scroll
+  window.addEventListener('scroll', fadeInOnScroll);
+});
+
 // Système d'étoiles basique (pour l'affichage uniquement)
+<c:if test="${sessionScope.sessionUser == null}">
 document.addEventListener('DOMContentLoaded', function() {
   const stars = document.querySelectorAll('.star-label');
   stars.forEach(star => {
     star.addEventListener('click', function() {
-      // Désactivé - nécessite une connexion
       alert('Veuillez vous connecter pour évaluer ce service.');
     });
   });
 });
+</c:if>
+
 </script>
 
 </body>
