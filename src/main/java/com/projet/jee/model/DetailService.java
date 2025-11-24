@@ -16,11 +16,17 @@ public class DetailService {
 
     private String titre;
     private String description;
-    private String status;
-
+    
+    @Enumerated(EnumType.STRING)
+    private StatutService status;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
+    
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private Manager manager;
 
     // ✅ On garde List ici
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -42,11 +48,24 @@ public class DetailService {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public StatutService getStatus() {
+		return status;
+	}
+    public void setStatus(StatutService status) {
+		this.status = status;
+	}
+
 
     public Categorie getCategorie() { return categorie; }
     public void setCategorie(Categorie categorie) { this.categorie = categorie; }
+    public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+
 
     public List<Fonctionnalite> getFonctionnalites() { return fonctionnalites; }
     public void setFonctionnalites(List<Fonctionnalite> fonctionnalites) { this.fonctionnalites = fonctionnalites; }

@@ -302,7 +302,7 @@
                 <p>Voir la liste de vos clients</p>
             </a>
 
-            <a href="${pageContext.request.contextPath}/JSP/secured/manager/statistiques.jsp" class="menu-card">
+            <a href="${pageContext.request.contextPath}/secured/Statistics" class="menu-card">
                 <div class="menu-icon">📈</div>
                 <h3>Tableau de Bord Statistiques</h3>
                 <p>Consulter vos statistiques de performance</p>

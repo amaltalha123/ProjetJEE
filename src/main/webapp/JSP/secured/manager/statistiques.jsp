@@ -573,43 +573,6 @@
                 <p class="stats-subtitle">Vue d'ensemble de votre performance  </p>
               </div>
               
-              <!-- Filtres -->
-              <div class="filters-container">
-                <h3 class="filters-title">Filtrer les données</h3>
-                <div class="filters-row">
-                  <div class="filter-group">
-                    <label class="filter-label">Période</label>
-                    <select class="filter-select" id="periodFilter">
-                      <option value="today">Aujourd'hui</option>
-                      <option value="week" selected>Cette semaine</option>
-                      <option value="month">Ce mois</option>
-                      <option value="quarter">Ce trimestre</option>
-                      <option value="year">Cette année</option>
-                    </select>
-                  </div>
-                  <div class="filter-group">
-                    <label class="filter-label">Type de service</label>
-                    <select class="filter-select" id="serviceTypeFilter">
-                      <option value="all">Tous les services</option>
-                      <option value="medical">Services médicaux</option>
-                      <option value="surgical">Services chirurgicaux</option>
-                      <option value="diagnostic">Services diagnostiques</option>
-                    </select>
-                  </div>
-                  <div class="filter-group">
-                    <label class="filter-label">Statut</label>
-                    <select class="filter-select" id="statusFilter">
-                      <option value="all">Tous les statuts</option>
-                      <option value="pending">En attente</option>
-                      <option value="completed">Complétés</option>
-                      <option value="cancelled">Annulés</option>
-                    </select>
-                  </div>
-                </div>
-                <button class="apply-filters-btn" id="applyFiltersBtn">
-                  <i class="fas fa-filter"></i> Appliquer les filtres
-                </button>
-              </div>
               
               <!-- Cartes de statistiques principales -->
               <div class="row">
@@ -621,10 +584,20 @@
                         <i class="fas fa-concierge-bell"></i>
                       </div>
                     </div>
-                    <div class="stat-card-value" id="activeServices">24</div>
-                    <div class="stat-card-change change-positive">
-                      <i class="fas fa-arrow-up"></i> 12% depuis le mois dernier
+                    <div class="stat-card-value" id="activeServices">${activeServices}</div>
+                   
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-card-header">
+                      <h3 class="stat-card-title">Services Archvés</h3>
+                      <div class="stat-card-icon" style="background-color: rgba(13, 110, 253, 0.1); color: #0d6efd;">
+                        <i class="fas fa-concierge-bell"></i>
+                      </div>
                     </div>
+                    <div class="stat-card-value" id="archiveServices">${archivedServices}</div>
+                   
                   </div>
                 </div>
                 
@@ -636,10 +609,8 @@
                         <i class="fas fa-envelope-open-text"></i>
                       </div>
                     </div>
-                    <div class="stat-card-value" id="totalRequests">156</div>
-                    <div class="stat-card-change change-positive">
-                      <i class="fas fa-arrow-up"></i> 8% depuis la semaine dernière
-                    </div>
+                    <div class="stat-card-value" id="totalRequests">${totalRequests}</div>
+                    
                   </div>
                 </div>
                 
@@ -651,150 +622,15 @@
                         <i class="fas fa-exclamation-triangle"></i>
                       </div>
                     </div>
-                    <div class="stat-card-value" id="totalComplaints">12</div>
-                    <div class="stat-card-change change-negative">
-                      <i class="fas fa-arrow-down"></i> 5% depuis le mois dernier
-                    </div>
+                    <div class="stat-card-value" id="totalComplaints">${totalComplaints}</div>
+                   
                   </div>
                 </div>
                 
-                <div class="col-md-3">
-                  <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="stat-card-header">
-                      <h3 class="stat-card-title">Taux de Satisfaction</h3>
-                      <div class="stat-card-icon" style="background-color: rgba(255, 193, 7, 0.1); color: #ffc107;">
-                        <i class="fas fa-star"></i>
-                      </div>
-                    </div>
-                    <div class="stat-card-value" id="satisfactionRate">94%</div>
-                    <div class="stat-card-change change-positive">
-                      <i class="fas fa-arrow-up"></i> 2% depuis le trimestre dernier
-                    </div>
-                  </div>
-                </div>
-              </div>
+               
               
-              <!-- Graphiques -->
-              <div class="row">
-                <div class="col-lg-8">
-                  <div class="chart-container" data-aos="fade-up" data-aos-delay="500">
-                    <div class="chart-header">
-                      <h3 class="chart-title">Demandes de services par mois</h3>
-                      <div class="chart-actions">
-                        <button class="chart-action-btn active" data-period="month">Mois</button>
-                        <button class="chart-action-btn" data-period="quarter">Trimestre</button>
-                        <button class="chart-action-btn" data-period="year">Année</button>
-                      </div>
-                    </div>
-                    <div class="chart-placeholder">
-                      <i class="fas fa-chart-bar me-2"></i> Graphique des demandes par mois
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4">
-                  <div class="chart-container" data-aos="fade-up" data-aos-delay="600">
-                    <div class="chart-header">
-                      <h3 class="chart-title">Répartition des services</h3>
-                    </div>
-                    <div class="chart-placeholder">
-                      <i class="fas fa-chart-pie me-2"></i> Graphique circulaire des services
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Tableaux de données -->
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="data-table-container" data-aos="fade-up" data-aos-delay="700">
-                    <div class="data-table-header">
-                      <h3 class="data-table-title">Services les plus demandés</h3>
-                    </div>
-                    <table class="data-table">
-                      <thead>
-                        <tr>
-                          <th>Service</th>
-                          <th>Demandes</th>
-                          <th>Évolution</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Consultation générale</td>
-                          <td>42</td>
-                          <td class="change-positive">+15%</td>
-                        </tr>
-                        <tr>
-                          <td>Radiologie</td>
-                          <td>38</td>
-                          <td class="change-positive">+8%</td>
-                        </tr>
-                        <tr>
-                          <td>Analyse médicale</td>
-                          <td>35</td>
-                          <td class="change-positive">+12%</td>
-                        </tr>
-                        <tr>
-                          <td>Chirurgie ambulatoire</td>
-                          <td>28</td>
-                          <td class="change-positive">+5%</td>
-                        </tr>
-                        <tr>
-                          <td>Urgences</td>
-                          <td>25</td>
-                          <td class="change-negative">-3%</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                
-                <div class="col-lg-6">
-                  <div class="data-table-container" data-aos="fade-up" data-aos-delay="800">
-                    <div class="data-table-header">
-                      <h3 class="data-table-title">Statut des réclamations</h3>
-                    </div>
-                    <table class="data-table">
-                      <thead>
-                        <tr>
-                          <th>Réclamation</th>
-                          <th>Date</th>
-                          <th>Statut</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Retard de rendez-vous</td>
-                          <td>15/05/2023</td>
-                          <td><span class="status-badge status-completed">Résolue</span></td>
-                        </tr>
-                        <tr>
-                          <td>Problème de facturation</td>
-                          <td>22/05/2023</td>
-                          <td><span class="status-badge status-pending">En cours</span></td>
-                        </tr>
-                        <tr>
-                          <td>Service non satisfaisant</td>
-                          <td>28/05/2023</td>
-                          <td><span class="status-badge status-completed">Résolue</span></td>
-                        </tr>
-                        <tr>
-                          <td>Erreur médicale</td>
-                          <td>02/06/2023</td>
-                          <td><span class="status-badge status-pending">En cours</span></td>
-                        </tr>
-                        <tr>
-                          <td>Problème d'accueil</td>
-                          <td>10/06/2023</td>
-                          <td><span class="status-badge status-cancelled">Annulée</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              
+             
+               
             </div>
           </div>
         </div>
