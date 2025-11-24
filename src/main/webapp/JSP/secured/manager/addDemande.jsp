@@ -154,7 +154,7 @@
             resize: vertical;
         }
         
-        /* Boutons cohérents avec service.jsp */
+        /* NOUVEAUX STYLES DES BOUTONS - Design moderne et élégant */
         .btn-group {
             display: flex;
             gap: 15px;
@@ -164,56 +164,120 @@
         }
         
         .btn {
-            padding: 12px 30px;
+            padding: 14px 32px;
             border-radius: 12px;
             font-weight: 600;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
+            gap: 10px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border: none;
             cursor: pointer;
             font-size: 1rem;
             flex: 1;
-            min-width: 140px;
+            min-width: 150px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        .btn-success {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
         
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Bouton Mettre à jour/Créer - Style moderne bleu */
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            border: 2px solid transparent;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
             color: white;
         }
         
-        .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #868e96 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        .btn-submit:active {
+            transform: translateY(-1px) scale(1.01);
         }
         
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        /* Bouton Annuler - Style élégant gris */
+        .btn-cancel {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #6c757d;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.15);
+        }
+        
+        .btn-cancel:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.25);
+            color: #495057;
+            border-color: #adb5bd;
+        }
+        
+        /* Bouton Supprimer - Style moderne rouge */
+        .btn-delete {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            border: 2px solid transparent;
+        }
+        
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #e53e3e 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(255, 82, 82, 0.6);
             color: white;
         }
         
-        .btn-danger {
-            background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        .btn-delete:active {
+            transform: translateY(-1px) scale(1.01);
         }
         
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
-            color: white;
+        /* Effet de brillance au survol pour tous les boutons */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+        
+        .btn:hover::after {
+            opacity: 1;
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+        
+        /* Animation des icônes dans les boutons */
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: scale(1.2);
         }
         
         /* Footer cohérent */
@@ -245,10 +309,12 @@
             
             .btn-group {
                 flex-direction: column;
+                gap: 12px;
             }
             
             .btn {
                 width: 100%;
+                padding: 12px 24px;
             }
         }
         
@@ -259,6 +325,12 @@
             
             .form-body {
                 padding: 20px;
+            }
+            
+            .btn {
+                min-width: auto;
+                font-size: 0.9rem;
+                padding: 10px 20px;
             }
         }
         
@@ -275,6 +347,22 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+        
+        /* Animation spécifique pour les boutons */
+        .btn {
+            animation: buttonEntrance 0.8s ease-out;
+        }
+        
+        @keyframes buttonEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
     </style>
@@ -362,19 +450,19 @@
                         </c:if>
 
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-submit">
                                 <i class="fas fa-save me-2"></i>
                                 ${empty demande ? 'Créer la demande' : 'Mettre à jour'}
                             </button>
 
                             <a href="${pageContext.request.contextPath}/manager/mes-demandes"
-                               class="btn btn-secondary">
+                               class="btn btn-cancel">
                                <i class="fas fa-times me-2"></i>Annuler
                             </a>
 
                             <c:if test="${not empty demande}">
                                 <a href="${pageContext.request.contextPath}/manager/demandeAction?action=delete&id=${demande.id}"
-                                   class="btn btn-danger"
+                                   class="btn btn-delete"
                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?')">
                                    <i class="fas fa-trash me-2"></i>Supprimer
                                 </a>
@@ -407,6 +495,12 @@
             formElements.forEach((element, index) => {
                 element.style.animationDelay = `${index * 0.1}s`;
                 element.classList.add('animate__animated', 'animate__fadeInUp');
+            });
+            
+            // Animation spécifique pour les boutons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach((button, index) => {
+                button.style.animationDelay = `${0.5 + (index * 0.1)}s`;
             });
         });
     </script>
