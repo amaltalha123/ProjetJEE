@@ -296,12 +296,7 @@
                 <h3>Gestion des Services</h3>
                 <p>Gérer vos services proposés</p>
 
-            <a href="#" class="menu-card">
-                <div class="menu-icon">👥</div>
-                <h3>Gestion des Clients</h3>
-                <p>Voir la liste de vos clients</p>
-            </a>
-
+           
             <a href="${pageContext.request.contextPath}/secured/Statistics" class="menu-card">
                 <div class="menu-icon">📈</div>
                 <h3>Tableau de Bord Statistiques</h3>
