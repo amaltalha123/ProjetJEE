@@ -347,7 +347,7 @@
                       </div>
                     </div>
                   <div class="service-footer">
-                        <a href="http://localhost:8082/ProjetJEE/ServiceDetailsClientServlet?id=${s.id}" class="service-btn">
+                        <a href="http://localhost:8084/ProjetJEE/ServiceDetailsClientServlet?id=${s.id}" class="service-btn">
                            Voir details du service
                           <i class="fas fa-arrow-right"></i>
                         </a>

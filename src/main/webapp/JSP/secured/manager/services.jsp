@@ -707,20 +707,20 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/ProfileServlet">
                   <i class="fas fa-user-circle"></i> Profile
                 </a>
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/manager/mes-demandes">
                   <i class="fas fa-envelope-open-text"></i> Demandes
                 </a>
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/secured/reclamations">
                   <i class="fas fa-exclamation-triangle"></i> Réclamations
                 </a>
-                <a class="nav-link" href="#">
+                <a class="nav-link active" href="${pageContext.request.contextPath}/secured/GetServicesPage">
                   <i class="fas fa-concierge-bell"></i> Services
                 </a>
-                <a class="nav-link active" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/secured/Statistics">
                   <i class="fas fa-chart-line"></i> Statistiques
                 </a>
                 <div class="logout-container mt-auto">
-                  <a href="logout" class="btn btn-logout">
+                  <a href="${pageContext.request.contextPath}/logout" class="btn btn-logout">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                   </a>
                 </div>
@@ -773,7 +773,7 @@
                         </div>
                       </div>
                       <div class="service-footer">
-                        <a href="http://localhost:8082/ProjetJEE/ServiceDetailsServlet?id=${service.id}" class="service-btn">
+                        <a href="http://localhost:8084/ProjetJEE/ServiceDetailsServlet?id=${service.id}" class="service-btn">
                           Voir details du service
                           <i class="fas fa-arrow-right"></i>
                         </a>
@@ -953,7 +953,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     footerDiv.className = 'service-footer';
                     const linkA = document.createElement('a');
                     linkA.className = 'service-btn';
-                    linkA.href = 'http://localhost:8082/ProjetJEE/ServiceDetailsServlet?id=' + service.id;  // Lien vers les détails, adaptez
+                    linkA.href = 'http://localhost:8084/ProjetJEE/ServiceDetailsServlet?id=' + service.id;  // Lien vers les détails, adaptez
                     linkA.innerHTML = 'Voir details du service <i class="fas fa-arrow-right"></i>';
                     footerDiv.appendChild(linkA);
 
